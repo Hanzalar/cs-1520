@@ -58,7 +58,8 @@ H1{
 
 body section aside #info {
     float: right;
-    border: #F87474 9px solid;
+    border: #F87474 5px solid;
+    border-right: #F87474 15px solid;
     color: black;
     font-size: 1.2em;
     padding: 15px;
