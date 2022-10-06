@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{title}} - Tinder For Roommates [Working Title] </title>
+
+    <script src="/static/scripts/jquery.js"></script>
+    <script src="/static/scripts/jquery-ui.min.js"></script>
+
+    <link href="/static/themes/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/themes/jquery-ui.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/stylesheet.css">
+
+</head>
+
+<body>
+    <header>
+        <h1><img alt="Logobanner" src="/static/logobanner.png" /> </h1>
+    </header>
+    <nav id="horizontalNAV">
+        <ul>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="Join-Now.html">Join Now</a></li>
+            <li><a href="roomieQuiz.html">Roomie Quiz</a></li>
+        </ul>
+    </nav>
+    <section>
+        {% block content %} {% endblock %}
+    </section>
+
+    <footer>
+        <address>
+            Tinder For Room Mates [working title] &#183; COPYRIGHT &#183; 2022 &#183; HAR58@pitt.edu
+        </address>
+    </footer>
+
+</body>
+
+</html>
