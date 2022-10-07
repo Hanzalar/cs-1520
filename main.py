@@ -9,7 +9,13 @@ app = Flask(__name__)
 @app.route('/index.html')
 @app.route('/default.html')
 def root():
-    return render_template('index.html', title='Home')
+    founder_list = {
+        'Hanzala',
+        'David',
+        'Derrick',
+        'Erasto'
+    } # this assumes that for name there is an image file at /static/images/name.png
+    return render_template('index.html', title='Home', names=founder_dict)
 
 @app.errorhandler(404)
 @app.route('/404.html')
