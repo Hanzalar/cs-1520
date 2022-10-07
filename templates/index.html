@@ -33,7 +33,7 @@
     <ul> <!-- use Flask templates and dictionary to display list of people and images -->
         {% for name in names %}
         <li>
-            <img src="{{ name }}" alt="/static/images/{{ name }}"></a>
+            <img src="/static/images/{{ name }}.png" alt="{{ name }}"></a>
         </li>
         {% endfor %}
     </ul>
