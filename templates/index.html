@@ -30,20 +30,12 @@
        Meet The Founders!
     </H1>
 <nav id="images">
-    <ul>
+    <ul> <!-- use Flask templates and dictionary to display list of people and images -->
+        {% for name in names %}
         <li>
-            <img src="/static/Hanzala.png" alt="Hanzala"></a>
+            <img src="{{ name }}"" alt="{{ names[name] }}""></a>
         </li>
-        <li>
-            <img src="/static/Erasto.png" alt="Erasto"></a>
-        </li>
-        <li>
-            <img src="/static/David.png" alt="David"></a>
-        </li>
-        <li>
-            <img src="/static/Derrick.png" alt="Derrick"></a>
-        </li>
-
+        {% endfor %}
     </ul>
 </nav>
 </aside>
