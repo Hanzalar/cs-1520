@@ -52,8 +52,11 @@ H1{
 #horizontalNAV ul li a:hover {
     
     outline:  #3AB0FF 2px solid;
+    -khtml-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
     border-radius: 10px;
-    -moz-outline-radius: 15px;
+
 }
 
 body section aside #info {
