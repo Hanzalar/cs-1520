@@ -40,6 +40,20 @@ def DisplayQuestionnaire():
         return render_template('quizResults.html', title = "Results", Name = name, results = list)
     except:
         return questionnaire()
+@app.route('/JoinNow')
+@app.route('/JoinNow.html')
+def Join():
+     return render_template('JoinNow.html',title ="JoinNow")
+
+@app.route('/emailsubmission')
+def emailsubmission():
+     try:
+         name = request.args["name"]
+         email = request.args["email"]
+         return render_template('JoinSuccess.html', title = "Success", Name = name, results = email)
+     except:
+        return Join()
+
 
 @app.errorhandler(404)
 @app.route('/404.html')
