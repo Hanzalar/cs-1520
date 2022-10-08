@@ -1,0 +1,13 @@
+{% extends '_base.html' %}
+{% block content %}
+<aside>
+    <H1 class="main">
+        Results for {{Name}}
+    </H1>
+    {% for question in results %}
+    <H3 style = "padding-top: 5%;padding-bottom: 1%;clear: both;">
+        {{question}}
+    </H3>
+    {% endfor %}
+</aside>
+{% endblock %}

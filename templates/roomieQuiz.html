@@ -1,0 +1,58 @@
+{% extends '_base.html' %}
+{% block content %}
+<aside>
+    <H1 class = "main2">
+        Let's get to know you...
+    </H1>
+    <p id = "info">
+        This questionnaire will inform the community of what kind of roommate you are to see if you are best roommate for them
+    </p>
+</aside>
+<aside>
+    <form method="get" action="DisplayQuestionnaire">
+        <H3 style = "padding-top: 5%;padding-bottom: 1%;clear: both;">
+            Please Enter Your Name
+        </H3>
+        <div style="padding-inline:1%;">
+            <input name="name" type="text">
+        </div>
+      <H3 style = "padding-top: 5%;padding-bottom: 1%;clear: both;">
+        Are you Introverted or Extroverted?
+      </H3>
+      <div style = "padding-inline: 1%;">
+        <input name="type" type = "radio" value="Introverted"> Introverted
+        <input name="type" type = "radio" value="Extroverted"> Extroverted 
+      </div>
+      <H3 style = "padding-top: 5%;padding-bottom: 1%;clear: both;">
+        Do you have a pet?
+      </H3>
+      <div style = "padding-inline: 1%;">
+        <input name="pet" type = "radio" value="Yes"> Yes
+        <input name="pet" type = "radio" value="No"> No 
+      </div>
+      <H3 style = "padding-top: 5%;padding-bottom: 1%;clear: both;">
+        Do you smoke?
+      </H3>
+      <div style = "padding-inline: 1%;">
+        <input name="smoke" type = "radio" value="Yes"> Yes
+        <input name="smoke" type = "radio" value="No">  No
+      </div>
+      <H3 style = "padding-top: 5%;padding-bottom: 1%;clear: both;">
+        Will you have friends over?
+      </H3>
+      <div style = "padding-inline: 1%;">
+        <input name="friends" type = "radio" value="Yes"> Yes
+        <input name="friends" type = "radio" value="No"> No 
+      </div>
+      <H3 style = "padding-top: 5%;padding-bottom: 1%;clear: both;">
+        When is your bedtime?
+      </H3>
+      <div style = "padding-inline: 1%;">
+        <input name="bedtime" type="time"> 
+      </div>
+      <div style= "padding-top:5%;">
+      <input type = submit> 
+      </div>
+    </form>
+</aside>
+{% endblock %}
