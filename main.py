@@ -18,7 +18,7 @@ def root():
         'Erasto'
      ] # this assumes that for name there is an image file at /static/images/name.png
     shuffle(founder_list) # random order of pics bc why not
-    return render_template('index.html', title='Home', names=founder_list)
+    return render_template('index.html', title='Home', names=founder_list, alert_msg="This is an error!")
 
 @app.route('/roomieQuiz')
 @app.route('/roomieQuiz.html')
