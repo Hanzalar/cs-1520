@@ -1,17 +1,25 @@
 {% extends '_base.html' %}
 {% block content %}
 <aside>
-    <H1 class="main">
-        Join our mailing list and know when we're live!
+    <H1>
+        Welcome to Roomatch, fill out your information below and find your Match today!
     </H1>
     <aside> 
-        <form method="get" action="emailsubmission">
+        <form method="get" action="signupsubmission">
         <H3 style = "padding-top: 5%;padding-bottom: 1%;clear: both;">
             Enter Your Name
         </H3>
 
         <div style="padding-inline:1%;">
             <input name="name" type="text">
+        </div>
+
+        <H3 style = "padding-top: 5%;padding-bottom: 1%;clear: both;">
+            Enter Your Age
+        </H3>
+
+        <div style="padding-inline:1%;">
+            <input name="name" type="number">
         </div>
         
             <H3 style = "padding-top: 5%;padding-bottom: 1%;clear: both;">
@@ -20,6 +28,14 @@
             <div style="padding-inline:1%;">
                 <input name="email" type="email">
             </div>
+             
+            <H3 style = "padding-top: 5%;padding-bottom: 1%;clear: both;">
+                Create Your Password
+            </H3>
+            <div style="padding-inline:1%;">
+                <input name="password" type="text">
+            </div>
+
             <div style= "padding-top:5%;">
                 <input type = submit> 
                 </div>
