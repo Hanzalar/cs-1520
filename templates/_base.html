@@ -18,6 +18,12 @@
 </head>
 
 <body>
+    {% if alert_msg %}
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{alert_msg}}
+    </div>
+    {% endif %}
     <header>
         <h1><img alt="Logobanner" src="/static/images/logobanner.png" /> </h1>
     </header>
