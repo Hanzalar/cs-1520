@@ -20,7 +20,7 @@ def root():
      ] # this assumes that for name there is an image file at /static/images/name.png
     shuffle(founder_list) # random order of pics bc why not
     if (founder_list[0] == 'David'): alert_msg = "This is an error!"
-    return render_template('index.html', title='Home', names=founder_list, alert_msg)
+    return render_template('index.html', title='Home', names=founder_list, alert_msg=alert_msg)
 
 @app.route('/roomieQuiz')
 @app.route('/roomieQuiz.html')
