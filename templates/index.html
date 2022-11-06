@@ -1,42 +1,107 @@
 {% extends '_base.html' %}
 {% block content %}
-<aside>
-    <H1 class="main">
-        Find Your Next Room Mate Right Here<strong>  [Name Tk]! </strong>
-    </H1>
-    <p id="info">
-        In this website you will be able to create a roomate profiles, expore and find new people looking for roommates, and message them. This 
-        website allows you to find your next roommate in an exciting tinder style way!
-        Email us  <a href="mailto:har58@pitt.edu?subject=Suggestion for thefuture of finding roommates!">Here</a>              
-         for any suggestions!
-    </p>
-</aside>
-<aside>
-<H1 class="">
-    A problem We're all too Familiar With!
-</H1>
 
-<div  id="CollegeStory1">“There was a time in the spring when it got very hot and my roommates had just gotten a couple of hermit crabs.
-     They insisted on keeping the room at 80 degrees because if it was any colder, it would ‘hurt the hermies’ (their words, not mine).
-     I couldn’t tell the R.A. because I didn’t want to rat on them, so I had to suffer through the heat.” <br> &#8212 
-     <a href="https://www.seventeen.com/life/real-girl-stories/a22132646/worst-roommate-horror-stories/"> Sarah, 19</a> </div>
-<div  id="CollegeStory2">“My freshman year, my roommate used to tweet about me all semester long. She never left the room and legitimately tweeted over 50 times about me and my friend, and whatever we were talking about. 
+
+<!-- Header with full-height image -->
+<header class=" bgimg-header w3-display-container w3-grayscale-min" id="home">
+        <img class="bgimg-header" alt="skyline " src="/static/images/City-header.gif" />
+        <div class="w3-display-left " style="padding:48px"><strong>
+          <span class="  w3-jumbo w3-hide-small w3-animate-right">Let's make Finding <br>Room Mates
+            <strong class="typewrite w3-text-medaiidblue half_background" data-period="2000" data-type='[ "Safer!", "Smarter!", "More Accessible!", "Easier!" ]'  
+                ></strong>
+        </span><br>
+          <span class=" w3-xxxlarge w3-hide-large w3-hide-medium w3-animate-right">Let's make Finding </span><br>
+          <span class=" w3-xxxlarge w3-hide-large w3-hide-medium w3-animate-right">Room Mates <br>
+            <strong class="typewrite w3-text-medaiidblue half_background" data-period="2000" data-type='[ "Safer!", "Smarter!", "More Accessible!", "Easier!" ]'  
+                ></strong>
+          </span><br></strong>
+          <p class="w3-text-white "><a href="#medprof-sec" class="signup w3-button  w3-padding-large w3-large w3-margin-top  w3-hover-opacity-off "><i class="fa fa-building w3-animate-opacity"></i>   Learn More!</a>
+
+        </div> 
+        <div class="w3-display-bottomleft w3-text-grey w3-large" style="padding:24px 48px">
+          <i class="fa fa-twitter icon w3-hover-opacity"></i>
+          <i class="fa fa-linkedin icon w3-hover-opacity"></i>
+        </div>
+    
+ </header>
+
+ <div class="w3-container w3-white" style="padding:128px 16px" id="story2">
+        <div class=" w3-third " data-aos="fade-up" data-aos-delay="600"><img class=" render-image-third w3-row-padding w3-center" src="/static/images/roomate-twitter.png" alt="This is an animated gif image, but it does not move"/></div>
+      
+        <div class=" w3-twothird ">
+          <h1 class=" w3-xxxlarge w3-text-blue w3-left  " > <strong>
+                A problem We're all too Familiar With! <br> 
+          </strong>
+          <h1 style="padding-right: 100px" class=" w3-xxlarge w3-text-black w3-left  " data-aos="fade-right" data-aos-delay="490"> <strong >
+                “My freshman year, my roommate used to tweet about me all semester long. She never left the room and legitimately tweeted over 50 times about me and my friend, and whatever we were talking about. 
     She even posted a 17-minute voice memo of us once. It became a thing for my friend and I to check her tweets every morning to see if she wrote about us.
-     She never knew that we found out. #ChroniclesOfTheDrunkVariety if you’re interested.” <br>&#8212 <a href="https://www.seventeen.com/life/real-girl-stories/a22132646/worst-roommate-horror-stories/">Stephanie, 21</a></div>
+     She never knew that we found out. #ChroniclesOfTheDrunkVariety if you’re interested.” <br>&#8212 
+     <a class="w3-text-amber" href="https://www.seventeen.com/life/real-girl-stories/a22132646/worst-roommate-horror-stories/">Stephanie, 21</a>
+          </strong>
+          <p><a  href="#about" class=" signup w3-button  w3-text-white w3-padding-large w3-large w3-margin-top  w3-hover-opacity-off "></i> Get Started Now!</i></a> 
+        </div>
+        
+</div>
 
-    </aside>
-    <aside>    
-     <H1 class="">
-       Meet The Founders!
-    </H1>
-<nav id="images">
-    <ul> <!-- use Flask templates and dictionary to display list of people and images -->
+    
+
+<div class="w3-container w3-light-gray" style="padding:128px 16px" id="story1">
+        <div class=" w3-twothird ">
+          <h1 class=" w3-xxxlarge w3-text-blue w3-left " > <strong>
+                A problem We're all too Familiar With! <br> 
+          </strong>
+          <h1 class=" w3-xxlarge w3-text-black w3-left  " data-aos="fade-left" data-aos-delay="490"> <strong >
+                “There was a time in the spring when it got very hot and my roommates had just gotten a couple of hermit crabs.
+                They insisted on keeping the room at 80 degrees because if it was any colder, it would ‘hurt the hermies’ (their words, not mine).
+                I couldn’t tell the R.A. because I didn’t want to rat on them, so I had to suffer through the heat.” <br> &#8212 
+                <a class="w3-text-amber" href="https://www.seventeen.com/life/real-girl-stories/a22132646/worst-roommate-horror-stories/"> Sarah, 19</a>
+          </strong>
+          <p><a href="#about" class=" signup w3-button  w3-text-white w3-padding-large w3-large w3-margin-top  w3-hover-opacity-off "></i> Get Started Now!</i></a> 
+        </div>
+        <div class=" w3-third" data-aos="fade-up" data-aos-delay="600"><img class=" w3-center render-image-third" src="/static/images/roomates on couch.png" alt="This is an animated gif image, but it does not move"/></div>
+      
+</div>
+
+
+
+  <div>
+    <div class="w3-container w3-left w3-white" id="team">
+            <h1 class=" w3-xxxlarge w3-text-blue w3-left  " data-aos="fade-right" data-aos-delay="300"> <strong>
+                    Meet The Team!<br> 
+              </strong>
+        <!-- use Flask templates and dictionary to display list of people and images -->
+        <div class=" w3-container">
         {% for name in names %}
-        <li>
-            <img src="/static/images/{{ name }}.png" alt="{{ name }}"></a>
-        </li>
+              <div class=" ">
+                    <img style="padding: 20px"  class="w3-half w3-center w3-card-round" data-aos="fade-right" data-aos-delay="300" src="/static/images/{{ name }}.png" alt="{{ name }}"></a>
+              </div>
+           
+
         {% endfor %}
-    </ul>
-</nav>
-</aside>
+    </div></div>
+</div>
+
+    <!-- Contact Section -->
+<div class="w3-container w3-dark-gray" style="padding:128px 16px" >
+        <strong>
+        <h3 class="w3-center w3 w3-xxxlarge" id="contact" style="padding:28px 16px">CONTACT</h3>
+        <p class="w3-center w3-large">Lets get in touch. Send us a message:</p></strong>
+        <div style="margin-top:48px">
+          <form action="/action_page.php" target="_blank">
+            <p data-aos="fade-right" data-aos-delay="490"><input class="w3-input w3-border" type="text" placeholder="Name" required name="Name"></p>
+            <p data-aos="fade-right" data-aos-delay="800"><input class="w3-input w3-border" type="text" placeholder="Email" required name="Email"></p>
+            <p  data-aos="fade-right" data-aos-delay="1300"><input class="w3-input w3-border" type="text" placeholder="Subject" required name="Subject"></p>
+            <p data-aos="fade-right" data-aos-delay="1500"><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
+            <p>
+              <button class="w3-button w3-blue" type="submit">
+                <i class="fa fa-paper-plane"></i> SEND MESSAGE
+              </button>
+            </p>
+          </form>
+
+          
+        </div>
+      </div>
+    
+
 {% endblock %}
