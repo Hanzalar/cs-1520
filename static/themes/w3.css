@@ -1544,5 +1544,8 @@ a{
   
   }
 
-  
-  
+ .logo{
+    font-family: 'Lato', sans-serif;
+    font-style: italic;
+    color: black!important
+}
