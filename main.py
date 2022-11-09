@@ -121,8 +121,12 @@ def showProfiles():
 @app.route('/profile/<id>')
 def showProfile(id):
     query = datastore.Client().query(kind = 'user')
-    query.add_filter('id','=',id)
-    user = list(query.fetch())
+    user_query = list(query.fetch())
+    user = None
+    for u in user_query: # o(n) meh
+        if u['id'] == id:
+            user = u
+            break
     if user:
         return render_template('profile.html', title="Profile", user=user)
     else:
