@@ -120,6 +120,7 @@ def showProfiles():
 
 @app.route('/profile/<id>')
 def showProfile(id):
+    ## finish implementing this please!
     user = datastore.Client().get(id)
     if user:
         return render_template('profile.html', title="Profile", user=user)
