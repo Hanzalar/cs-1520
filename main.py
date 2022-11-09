@@ -109,6 +109,25 @@ def emailsubmission():
         return Join()
 
 
+@app.route('/profiles')
+@app.route('/profiles.html')
+@app.route('/profile')
+@app.route('/profile.html')
+def showProfiles():
+    query = datastore.Client().query(kind = 'user')
+    users = list(query.fetch())
+    return render_template('profiles.html', title="Profiles", users=users)
+
+@app.route('/profile/<id>')
+def showProfiles(id):
+    query = datastore.Client().query(kind = 'user')
+    user = list(query.fetch())
+    user.add_filter('id','=',id)
+    if user:
+        return render_template('profile.html', title="Profile", user=user)
+    else:
+        showProfiles()
+
 @app.errorhandler(404)
 @app.route('/404.html')
 @app.route('/404')
