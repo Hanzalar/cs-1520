@@ -126,7 +126,7 @@ def showProfile(id):
     if user:
         return render_template('profile.html', title="Profile", user=user)
     else:
-        showProfiles()
+        return showProfiles()
 
 @app.errorhandler(404)
 @app.route('/404.html')
