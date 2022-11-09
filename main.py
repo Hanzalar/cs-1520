@@ -3,17 +3,33 @@ from flask import Response
 from flask import request
 from flask import render_template
 from flask import flash
+from flask import session
 from random import shuffle
 from werkzeug.security import generate_password_hash, check_password_hash
 from google.cloud import datastore
-
+import objectsFile
 
 app = Flask(__name__)
 
-def create_user():
+def create_user(email):
     client = datastore.Client()
-    key = client.key('user')
+
+    if email:
+        key = client.key('user', email)
+    else:
+        key = client.key('user')
+
     return datastore.Entity(key)
+
+def get_user(email):
+    client = datastore.Client()
+
+    if email:
+        key = client.key('user', email)
+    else:
+        key = client.key('user')
+
+    return key
 
 @app.route('/')
 @app.route('/index.html')
@@ -31,10 +47,11 @@ def root():
     return render_template('index.html', title='Home', names=founder_list, alert_msg=alert_msg)
 
 
-@app.route('/signup', methods=['POST','GET'])
-def signup():
+@app.route('/signup', methods=['POST'])
+def dosignup():
     email = request.values['email']
     name = request.values['name']
+    age = request.values['age']
     password = request.values['password']
 
     user_exist = datastore.Client().query(kind = 'user')
@@ -42,36 +59,42 @@ def signup():
     
     for user in user_exist.fetch():
         if user['email'] == email:
-            return render_template('login.html')
+            return render_template('/login.html')
 
-    new_user = create_user()
+    new_user = create_user(email)
     new_user['name'] = name
     new_user['email'] = email
+    new_user['age'] = age
     new_user['password'] = generate_password_hash(password, method='sha256')
 
     datastore.Client().put(new_user)
 
-    return render_template('profile.html')
+    return render_template('profile.html', user = new_user)
 
 @app.route('/login')
 @app.route('/login.html')
 def login():
     return render_template('login.html')
 
-@app.route('/loginpost', methods=['POST','GET'])
-def handle_request_login():
+@app.route('/loginpost', methods=['POST'])
+def dologin():
     email = request.values['email']
     password = request.values['password']
 
-    user_exist = datastore.Client().query(kind='user')
-    user_exist.add_filter('email','=',email)
+    user = loaduser(email, password)
 
-    user = list(user_exist.fetch())[0]
-
-    if not user or not check_password_hash(user['password'], password):
-        return render_template('login.html')
+    if user and check_password_hash(user.password, password):
+        return render_template('profile.html')
     
-    return render_template('profile.html')
+    return render_template('login.html')
+
+def loaduser(email, password):
+    query = datastore.Client().query(kind = 'user')
+    query.add_filter('email','=',email)
+
+    for user in query.fetch():
+        return objectsFile.User(user['name'], user['password'], user['email'])
+    return None
 
 
 @app.route('/roomieQuiz')
