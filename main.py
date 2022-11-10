@@ -4,11 +4,13 @@ from flask import request
 from flask import render_template
 from flask import flash
 from flask import session
+from flask_login import current_user, UserMixin, LoginManager, login_required, login_user, logout_user
 from random import shuffle
 from werkzeug.security import generate_password_hash, check_password_hash
 from google.cloud import datastore
 
 app = Flask(__name__)
+
 
 def create_user(email):
     client = datastore.Client()
