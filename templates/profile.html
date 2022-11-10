@@ -2,12 +2,21 @@
 {% block content %}
 <div class="w3-row">
     <div class="w3-col s12">
-        <div class="w3-card-4">
-            <div class="w3-container w3-center">
-                <p>&#x274c;</p>
-                <p>&#x2705;</p>
+        <aside>
+            <div class="w3-card-4">
+
+                <h3>{{user['name']}}</h3><br>
+
+                <h3>{{user['email']}}</h3><br>
+
+                <h3>{{user['age']}}</h3><br>
+
+                <div class="w3-container w3-center">
+                    <p>&#x274c;</p>
+                    <p>&#x2705;</p>
+                </div>
             </div>
-        </div>
+        </aside>
     </div>
 </div>
 <a href="profile.html"><button class="w3-button w3-xlarge">Back to profiles</button></a>

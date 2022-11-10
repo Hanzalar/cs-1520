@@ -7,7 +7,6 @@ from flask import session
 from random import shuffle
 from werkzeug.security import generate_password_hash, check_password_hash
 from google.cloud import datastore
-import objectsFile
 
 app = Flask(__name__)
 
@@ -83,8 +82,8 @@ def dologin():
 
     user = loaduser(email, password)
 
-    if user and check_password_hash(user.password, password):
-        return render_template('profile.html')
+    if user and check_password_hash(user['password'], password):
+        return render_template('profile.html', user = user)
     
     return render_template('login.html')
 
@@ -93,7 +92,7 @@ def loaduser(email, password):
     query.add_filter('email','=',email)
 
     for user in query.fetch():
-        return objectsFile.User(user['name'], user['password'], user['email'])
+        return user
     return None
 
 
