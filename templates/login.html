@@ -1,31 +1,22 @@
 {% extends '_base.html' %}
 {% block content %}
-<aside>
-    <aside>
-        <H1>
-            Please Enter Your Credentials To Login!
-        </H1>
-        <form method="post" action="/loginpost">
-            <H3 style = "padding-top: 5%;padding-bottom: 1%;clear: both;">
-                Enter Your Email
-            </H3>
-    
-            <div style="padding-inline:1%;">
-                <input name="email" type="email">
-            </div>
+<div class="w3-container w3-light-gray" style="padding:128px 16px" >
+        <strong>
+        <h3 class="w3-center w3 w3-xxxlarge" id="signup" style="padding:28px 16px">Log In To Your Account</h3>
+        <p class="w3-center w3-large">Find your next roomate today!</p></strong>
+        <div style="margin-top:48px">
+            <form method="post" action="/loginpost">
+            <p  data-aos="slide-right" data-aos-delay="300"><input class="w3-input w3-border" type="text" placeholder="email" required name="email"></p>
+            <p data-aos="slide-right" data-aos-delay="500"><input class="w3-input w3-border" type="text" placeholder="password" required name="password"></p>
+            <p>
+              <button class="signup w3-button  w3-padding-large w3-large w3-margin-top  w3-hover-opacity-off w3-blue w3-text-white" type="submit">
+                <i class="fa fa-user"></i> Log in!
+              </button>
+            </p>
+          </form>
 
-            <H3 style = "padding-top: 5%;padding-bottom: 1%;clear: both;">
-                Enter Your Password
-            </H3>
-    
-            <div style="padding-inline:1%;">
-                <input name="password" type="text">
-            </div>
+          
+        </div>
+    </div>
 
-            <div style= "padding-top:5%;">
-                <input type = submit> 
-                </div>
-        </form>
-    </aside>
-</aside>
 {% endblock %}
