@@ -17,7 +17,7 @@ def get_secret_key():
     client = secretmanager.SecretManagerServiceClient()
 
     # Access the secret version.
-    response = client.access_secret_version(name='projects/370368880243/secrets/flask-secret-key')
+    response = client.access_secret_version(name='projects/370368880243/secrets/flask-secret-key/versions/1')
 
     # Return the decoded payload.
     return response.payload.data.decode('UTF-8')
