@@ -90,7 +90,7 @@ def dosignup():
 
     datastore.Client().put(new_user)
 
-    session['user'] = user.username
+    session['user'] = email
 
     return render_template('profile.html', user = new_user, nav=NAVBAR_AUTH)
 
