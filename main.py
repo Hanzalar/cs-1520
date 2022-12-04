@@ -42,16 +42,19 @@ def get_user():
 @app.route('/index.html')
 @app.route('/default.html')
 def root():
-    alert_msg = None
-    founder_list = [
-        'Hanzala',
-        'David',
-        'Derrick',
-        'Erasto'
-     ] # this assumes that for name there is an image file at /static/images/name.png
-    shuffle(founder_list) # random order of pics bc why not
-    if (founder_list[0] == 'David'): alert_msg = "This is an error!"
-    return render_template('index.html', title='Home', names=founder_list, alert_msg=alert_msg)
+    if get_user(): # if you're logged in go back to profiles
+        return show_profiles()
+    else: # show regular home page
+        alert_msg = None
+        founder_list = [
+            'Hanzala',
+            'David',
+            'Derrick',
+            'Erasto'
+        ] # this assumes that for name there is an image file at /static/images/name.png
+        shuffle(founder_list) # random order of pics bc why not
+        if (founder_list[0] == 'David'): alert_msg = "This is an error!"
+        return render_template('index.html', title='Home', names=founder_list, alert_msg=alert_msg)
 
 
 @app.route('/signup', methods=['POST'])
@@ -83,7 +86,10 @@ def dosignup():
 @app.route('/login')
 @app.route('/login.html')
 def login():
-    return render_template('login.html')
+    if get_user(): # if you're logged in go back to profiles
+        return show_profiles()
+    else:
+        return render_template('login.html')
 
 @app.route('/loginpost', methods=['POST'])
 def dologin():
@@ -137,7 +143,10 @@ def DisplayQuestionnaire():
 @app.route('/JoinNow')
 @app.route('/JoinNow.html')
 def Join():
-     return render_template('JoinNow.html',title ="JoinNow")
+    if get_user(): # if you're logged in go back to profiles
+        return show_profiles()
+    else: 
+        return render_template('JoinNow.html',title ="JoinNow")
 
 @app.route('/emailsubmission')
 def emailsubmission():
@@ -153,7 +162,7 @@ def emailsubmission():
 @app.route('/profiles.html')
 @app.route('/profile')
 @app.route('/profile.html')
-def showProfiles():
+def show_profiles():
     if get_user():
         query = datastore.Client().query(kind = 'user')
         users = list(query.fetch())
@@ -162,14 +171,14 @@ def showProfiles():
         return login()
 
 @app.route('/profile/<id>')
-def showProfile(id):
+def show_profile(id):
     if get_user():
         ## finish implementing this please!
         user = datastore.Client().get(id)
         if user:
             return render_template('profile.html', title="Profile", user=user)
         else:
-            return showProfiles()
+            return show_profiles()
     else:
         return login()
 
