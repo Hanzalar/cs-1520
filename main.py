@@ -99,6 +99,12 @@ def dologin():
     
     return render_template('login.html')
 
+@app.route('/logout')
+@app.route('/logout.html')
+def logout():
+    session['user'] = None
+    return root()
+
 def loaduser(email, password):
     query = datastore.Client().query(kind = 'user')
     query.add_filter('email','=',email)
