@@ -7,8 +7,22 @@ from flask import session
 from random import shuffle
 from werkzeug.security import generate_password_hash, check_password_hash
 from google.cloud import datastore
+from google.cloud import secretmanager
 
 app = Flask(__name__)
+
+def get_secret_key():
+    ''' pull flask secret key from google secret manager, not in plaintext! '''
+    # Create the Secret Manager client.
+    client = secretmanager.SecretManagerServiceClient()
+
+    # Access the secret version.
+    response = client.access_secret_version(name='projects/370368880243/secrets/flask-secret-key')
+
+    # Return the decoded payload.
+    return response.payload.data.decode('UTF-8')
+
+app.secret_key = get_secret_key() # so we can have session cookies
 
 
 def create_user(email):
@@ -21,15 +35,8 @@ def create_user(email):
 
     return datastore.Entity(key)
 
-def get_user(email):
-    client = datastore.Client()
-
-    if email:
-        key = client.key('user', email)
-    else:
-        key = client.key('user')
-
-    return key
+def get_user():
+    return session.get('user', None)
 
 @app.route('/')
 @app.route('/index.html')
@@ -69,6 +76,8 @@ def dosignup():
 
     datastore.Client().put(new_user)
 
+    session['user'] = user.username
+
     return render_template('profile.html', user = new_user)
 
 @app.route('/login')
@@ -84,6 +93,8 @@ def dologin():
     user = loaduser(email, password)
 
     if user and check_password_hash(user['password'], password):
+        ''' add user to session '''
+        session['user'] = email
         return render_template('profile.html', user = user)
     
     return render_template('login.html')
@@ -137,18 +148,24 @@ def emailsubmission():
 @app.route('/profile')
 @app.route('/profile.html')
 def showProfiles():
-    query = datastore.Client().query(kind = 'user')
-    users = list(query.fetch())
-    return render_template('profiles.html', title="Profiles", users=users)
+    if get_user():
+        query = datastore.Client().query(kind = 'user')
+        users = list(query.fetch())
+        return render_template('profiles.html', title="Profiles", users=users)
+    else:
+        return login()
 
 @app.route('/profile/<id>')
 def showProfile(id):
-    ## finish implementing this please!
-    user = datastore.Client().get(id)
-    if user:
-        return render_template('profile.html', title="Profile", user=user)
+    if get_user():
+        ## finish implementing this please!
+        user = datastore.Client().get(id)
+        if user:
+            return render_template('profile.html', title="Profile", user=user)
+        else:
+            return showProfiles()
     else:
-        return showProfiles()
+        return login()
 
 @app.errorhandler(404)
 @app.route('/404.html')

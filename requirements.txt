@@ -3,3 +3,4 @@ google-cloud-datastore
 google-cloud-storage
 gunicorn
 google-cloud-core
+google-cloud-secret-manager
