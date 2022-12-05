@@ -182,7 +182,7 @@ def show_profiles():
         return render_template('profiles.html', title="Profiles", users=users, nav=NAVBAR_AUTH)
     else:
         return login()
-@app.route('/profiles')
+@app.route('/roomateTinder')
 @app.route('/roomateTinder.html')
 @app.route('/profile')
 @app.route('/profile.html')
@@ -191,7 +191,7 @@ def roomateTinder():
         query = datastore.Client().query(kind = 'user')
         query.add_filter("locationzip", "=", 15213)
         users = list(query.fetch())
-        return render_template('profiles.html', title="Profiles", users=users, nav=NAVBAR_AUTH)
+        return render_template('roomateTinder.html', title="Profiles", users=users, nav=NAVBAR_AUTH)
     else:
         return login()
 
