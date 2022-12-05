@@ -1,23 +1,56 @@
 {% extends '_base.html' %}
 {% block content %}
-<div class="w3-row w3-container" style="clear: both">
-    <div class="w3-col s12">
-        <aside>
-            <div class="w3-card-4">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
 
-                <h3>{{user['name']}}</h3><br>
+.title {
+  color: grey;
+  font-size: 18px;
+}
 
-                <h3>{{user['email']}}</h3><br>
+button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
 
-                <h3>{{user['age']}}</h3><br>
+a {
+  text-decoration: none;
+  font-size: 22px;
+  color: black;
+}
 
-                <div class="w3-container w3-center">
-                    <p>&#x274c;</p>
-                    <p>&#x2705;</p>
-                </div>
-            </div>
-        </aside>
-    </div>
+button:hover, a:hover {
+  opacity: 0.7;
+}
+</style>
+</head>
+<body>
+<h2 style="text-align:center">My Profile</h2>
+
+<div class="card">
+  <img src="static/images/profile/profile-pic.png" alt="John" style="width:100%">
+  <h1>{{ user.name }}</h1>
+  <p class="title">I am {{ user.age}} years old</p>
+  <p>About Me</p>
+  <div style="margin: 24px 0;">
+    <p>
+    </p>
+  </div>
+  <p><button>Contact</button></p>
 </div>
-<a href="profile.html"><button class="w3-button w3-xlarge">Back to profiles</button></a>
 {% endblock %}
