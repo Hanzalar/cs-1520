@@ -72,6 +72,7 @@ def root():
 def dosignup():
     email = request.values['email']
     name = request.values['name']
+    locationzip = request.values['locationzip']
     age = request.values['age']
     password = request.values['password']
 
@@ -85,6 +86,7 @@ def dosignup():
     new_user = create_user(email)
     new_user['name'] = name
     new_user['email'] = email
+    new_user['locationzip']=locationzip
     new_user['age'] = age
     new_user['password'] = generate_password_hash(password, method='sha256')
 
