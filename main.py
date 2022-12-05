@@ -25,15 +25,15 @@ def get_secret_key():
 app.secret_key = get_secret_key() # so we can have session cookies
 
 NAVBAR_AUTH = [
-    ["profile.html", "fa-user-circle-o", "My Profile"],
-    ["logout.html", "fa-user-circle-o", "Log Out"]
+    ["/profile.html", "fa-user-circle-o", "My Profile"],
+    ["/logout.html", "fa-user-circle-o", "Log Out"]
 ]
 
 NAVBAR_NOAUTH = [
-    ["index.html#team", "fa-sitemap", "Team"],
-    ["JoinNow.html", "fa-user-plus", "Join Now"],
-    ["login.html", "fa-user-circle-o", "Log In"],
-    ["index.html#contact", "fa-envelope-o", "Contact"]
+    ["/index.html#team", "fa-sitemap", "Team"],
+    ["/JoinNow.html", "fa-user-plus", "Join Now"],
+    ["/login.html", "fa-user-circle-o", "Log In"],
+    ["/index.html#contact", "fa-envelope-o", "Contact"]
 ]
 
 def create_user(email):
