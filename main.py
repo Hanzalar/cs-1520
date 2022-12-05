@@ -24,6 +24,17 @@ def get_secret_key():
 
 app.secret_key = get_secret_key() # so we can have session cookies
 
+NAVBAR_AUTH = [
+    ["profile.html", "fa-user-circle-o", "My Profile"],
+    ["logout.html", "fa-user-circle-o", "Log Out"]
+]
+
+NAVBAR_NOAUTH = [
+    ["index.html#team", "fa-sitemap", "Team"],
+    ["JoinNow.html", "fa-user-plus", "Join Now"],
+    ["login.html", "fa-user-circle-o", "Log In"],
+    ["index.html#contact", "fa-envelope-o", "Contact"]
+]
 
 def create_user(email):
     client = datastore.Client()
@@ -54,7 +65,7 @@ def root():
         ] # this assumes that for name there is an image file at /static/images/name.png
         shuffle(founder_list) # random order of pics bc why not
         if (founder_list[0] == 'David'): alert_msg = "This is an error!"
-        return render_template('index.html', title='Home', names=founder_list, alert_msg=alert_msg)
+        return render_template('index.html', title='Home', names=founder_list, alert_msg=alert_msg, nav=NAVBAR_NOAUTH)
 
 
 @app.route('/signup', methods=['POST'])
@@ -79,9 +90,9 @@ def dosignup():
 
     datastore.Client().put(new_user)
 
-    session['user'] = user.username
+    session['user'] = email
 
-    return render_template('profile.html', user = new_user)
+    return render_template('profile.html', user = new_user, nav=NAVBAR_AUTH)
 
 @app.route('/login')
 @app.route('/login.html')
@@ -89,7 +100,7 @@ def login():
     if get_user(): # if you're logged in go back to profiles
         return show_profiles()
     else:
-        return render_template('login.html')
+        return render_template('login.html', nav=NAVBAR_NOAUTH)
 
 @app.route('/loginpost', methods=['POST'])
 def dologin():
@@ -101,9 +112,9 @@ def dologin():
     if user and check_password_hash(user['password'], password):
         ''' add user to session '''
         session['user'] = email
-        return render_template('profile.html', user = user)
+        return render_template('profile.html', user = user, nav=NAVBAR_AUTH)
     
-    return render_template('login.html')
+    return render_template('login.html', nav=NAVBAR_NOAUTH)
 
 @app.route('/logout')
 @app.route('/logout.html')
@@ -146,14 +157,14 @@ def Join():
     if get_user(): # if you're logged in go back to profiles
         return show_profiles()
     else: 
-        return render_template('JoinNow.html',title ="JoinNow")
+        return render_template('JoinNow.html',title ="JoinNow", nav=NAVBAR_NOAUTH)
 
 @app.route('/emailsubmission')
 def emailsubmission():
      try:
          name = request.values["name"]
          email = request.values["email"]
-         return render_template('JoinSuccess.html', title = "Success", Name = name, results = email)
+         return render_template('JoinSuccess.html', title = "Success", Name = name, results = email, nav=NAVBAR_NOAUTH)
      except:
         return Join()
 
@@ -166,7 +177,7 @@ def show_profiles():
     if get_user():
         query = datastore.Client().query(kind = 'user')
         users = list(query.fetch())
-        return render_template('profiles.html', title="Profiles", users=users)
+        return render_template('profiles.html', title="Profiles", users=users, nav=NAVBAR_AUTH)
     else:
         return login()
 
@@ -186,7 +197,8 @@ def show_profile(id):
 @app.route('/404.html')
 @app.route('/404')
 def error404(e):
-    return render_template('404.html', title='404'), 404
+    nav = NAVBAR_AUTH if get_user() else NAVBAR_NOAUTH
+    return render_template('404.html', title='404', nav=nav), 404
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
