@@ -174,10 +174,10 @@ def show_profiles():
 def show_profile(id):
     if get_user():
         ## finish implementing this please!
-        user = datastore.Client().get(id)
-        if user:
+        try:
+            user = datastore.Client().get(id)
             return render_template('profile.html', title="Profile", user=user)
-        else:
+        except: #if user does not exist dump back to all profiles
             return show_profiles()
     else:
         return login()
