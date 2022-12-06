@@ -210,11 +210,14 @@ def show_profiles():
 def roomateTinder():
     if get_user():
         query = datastore.Client().query(kind = 'user')
-        query.add_filter("locationzip", "=", 15213)
-        users = list(query.fetch())
+        userzip = loaduser(session['user'])['localzip']
+        query.add_filter('locationzip', '=',  userzip)
+        users =  list(query.fetch())
         return render_template('roomateTinder.html', title="Matching", users=users, nav=NAVBAR_AUTH)
     else:
         return login()
+
+
 
 @app.route('/profile/<id>')
 def show_profile(id):
