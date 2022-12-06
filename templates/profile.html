@@ -47,10 +47,11 @@ button:hover, a:hover {
   <h1>{{ user.name }}</h1>
   <p class="title">I am {{ user.age}} years old</p>
   <p>About Me</p>
-  <div style="margin: 24px 0;">
+  <p>{{user.bio}}</p>
+  <div>
     <p>
     </p>
   </div>
-  <p><button>Contact</button></p>
+  <p><button>{{user.email}}</button></p>
 </div>
 {% endblock %}
