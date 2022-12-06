@@ -7,9 +7,12 @@ from flask import session
 from random import shuffle
 from werkzeug.security import generate_password_hash, check_password_hash
 from google.cloud import datastore
+from google.cloud import storage
 from google.cloud import secretmanager
 
 app = Flask(__name__)
+
+BUCKET_NAME = "grouph-bucket"
 
 def get_secret_key():
     ''' pull flask secret key from google secret manager, not in plaintext! '''
@@ -107,7 +110,7 @@ def dologin():
     email = request.values['email']
     password = request.values['password']
 
-    user = loaduser(email, password)
+    user = loaduser(email)
 
     if user and check_password_hash(user['password'], password):
         ''' add user to session '''
@@ -122,7 +125,7 @@ def logout():
     session['user'] = None
     return root()
 
-def loaduser(email, password):
+def loaduser(email):
     query = datastore.Client().query(kind = 'user')
     query.add_filter('email','=',email)
 
@@ -130,6 +133,26 @@ def loaduser(email, password):
         return user
     return None
 
+@app.route('/editprofile')
+@app.route('/editprofile.html')
+def editprofile():
+    user = loaduser(session['user'])
+    return render_template('editprofile.html', user = user, nav =NAVBAR_AUTH)
+
+@app.route('/saveprofile', methods=["POST"])
+def saveprofile():
+    email = session['user']
+    user = loaduser(email)
+    user['name'] = request.values['name']
+    user['age'] = request.values['age']
+    file = request.files.get('picture')
+    bucket = storage.Client().get_bucket(BUCKET_NAME)
+    blob = bucket.blob(email)
+    c_type = file.content_type
+    blob.upload_from_string(file.read(), content_type = c_type)
+    user['picture'] = blob.public_url
+    datastore.Client().put(user)    
+    return render_template('profile.html', user = user, nav = NAVBAR_AUTH)
 
 @app.route('/roomieQuiz')
 @app.route('/roomieQuiz.html')
