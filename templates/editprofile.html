@@ -52,7 +52,7 @@ width: 80px;
         Name:<input class="title" type="text" value={{user.name}} required name="name"></input>
         Age: <input class="title" type="number" value={{user.age}} required name="age"></input>
         <p>About Me</p>
-        <textarea class="bio-input" id="bio-input" type="text" rows="8" name = "bio" placeholder="Edit your bio(200 characters" maxlength = "200"></textarea> 
+        <textarea class="bio-input" id="bio-input" type="text" rows="8" name = "bio"  maxlength = "200">{{user.bio}}</textarea> 
         <div style="margin: 24px 0;">
         </div>
         <button type = "submit">Save</button>
