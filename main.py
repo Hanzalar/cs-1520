@@ -29,9 +29,9 @@ app.secret_key = get_secret_key() # so we can have session cookies
 
 NAVBAR_AUTH = [
     ["/profile.html", "fa-user-circle-o", "My Profile"],
-    ["/logout.html", "fa-user-circle-o", "Log Out"]
-    ["/editprofile.html", "fa-pencil-square-o", "Edit Profile"]
-    ["/roomateTinder.html", " fa-search-plus ", "Find A Match"]
+    ["/logout.html", "fa-user-circle-o", "Log Out"],
+    ["/editprofile.html", "fa-pencil-square-o", "Edit Profile"],
+    ["/roomateTinder.html", "fa-search-plus", "Find A Match"]
 ]
 
 NAVBAR_NOAUTH = [
