@@ -80,7 +80,7 @@ def dosignup():
     locationzip = request.values['locationzip']
     age = request.values['age']
     password = request.values['password']
-
+    bio = request.values['bio']
     user_exist = datastore.Client().query(kind = 'user')
     user_exist.add_filter('email','=', email)
     
@@ -93,6 +93,7 @@ def dosignup():
     new_user['email'] = email
     new_user['locationzip']=locationzip
     new_user['age'] = age
+    new_user['bio'] = bio
     new_user['password'] = generate_password_hash(password, method='sha256')
 
     datastore.Client().put(new_user)
@@ -150,6 +151,7 @@ def saveprofile():
     user['name'] = request.values['name']
     user['age'] = request.values['age']
     file = request.files.get('picture')
+    user['bio'] = request.values['bio']   
     bucket = storage.Client().get_bucket(BUCKET_NAME)
     blob = bucket.blob(email)
     c_type = file.content_type
