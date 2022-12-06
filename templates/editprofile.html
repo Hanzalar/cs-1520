@@ -37,6 +37,10 @@ a {
 button:hover, a:hover {
   opacity: 0.7;
 }
+.textboxclass {
+height: 10px;
+width: 80px;
+}
 </style>
 </head>
 <body>
@@ -44,11 +48,11 @@ button:hover, a:hover {
 
 <div class="card">
     <form method = "post" action = "/saveprofile" enctype="multipart/form-data">
-        
-        Profile Picture:<input class="title" type="file" name = "picture"> 
         Name:<input class="title" type="text" value={{user.name}} required name="name"></input>
+        Profile Picture:<input class="title" type="file" name = "picture"> 
         Age: <input class="title" type="number" value={{user.age}} required name="age"></input>
         <p>About Me</p>
+        <textarea class="bio-input" id="bio-input" type="text" rows="8" name = "bio" placeholder="Edit your bio(200 characters" maxlength = "200"></textarea> 
         <div style="margin: 24px 0;">
         </div>
         <button type = "submit">Save</button>
