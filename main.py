@@ -213,7 +213,7 @@ def roomateTinder():
     if get_user():
         query = datastore.Client().query(kind = 'user')
         cuserage = loaduser(session['user'])['age']
-        query.add_filter('locationzip', '=',  cuserage)
+        query.add_filter('age', '=',  cuserage)
         users =  list(query.fetch())
         return render_template('roomateTinder.html', title="Matching", users=users, nav=NAVBAR_AUTH)
     else:
