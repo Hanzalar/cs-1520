@@ -1,17 +1,18 @@
 {% extends '_base.html' %}
 {% block content %}
+<div class="w3-container">
 <div class="w3-row">
 {% for user in users %}
-<div class="w3-col s12 m4">
-    <div class="w3-card-4">
+<div class="w3-col s12 m4 w3-container">
+    <div class="w3-card-4" style="padding: 20 px;">
         <a href="/profile/{{ user.id }}"><img src="/static/images/demo-users/{{ user.id }}.jpg" style="width: 95%"></a>
         <div class="w3-container w3-center">
             <h3>{{ user.name }}</h3><br>
-            <p>&#x274c;</p>
-            <p>&#x2705;</p>
+            <p class="w3-half w3-large">&#x274c;</p>
+            <p class="w3-half w3-large">&#x2705;</p>
         </div>
     </div>
 </div>
 {% endfor %}
-</div>
+</div></div>
 {% endblock %}

@@ -28,15 +28,15 @@ def get_secret_key():
 app.secret_key = get_secret_key() # so we can have session cookies
 
 NAVBAR_AUTH = [
-    ["profile.html", "fa-user-circle-o", "My Profile"],
-    ["logout.html", "fa-user-circle-o", "Log Out"]
+    ["/profile.html", "fa-user-circle-o", "My Profile"],
+    ["/logout.html", "fa-user-circle-o", "Log Out"]
 ]
 
 NAVBAR_NOAUTH = [
-    ["index.html#team", "fa-sitemap", "Team"],
-    ["JoinNow.html", "fa-user-plus", "Join Now"],
-    ["login.html", "fa-user-circle-o", "Log In"],
-    ["index.html#contact", "fa-envelope-o", "Contact"]
+    ["/index.html#team", "fa-sitemap", "Team"],
+    ["/JoinNow.html", "fa-user-plus", "Join Now"],
+    ["/login.html", "fa-user-circle-o", "Log In"],
+    ["/index.html#contact", "fa-envelope-o", "Contact"]
 ]
 
 def create_user(email):
@@ -75,6 +75,7 @@ def root():
 def dosignup():
     email = request.values['email']
     name = request.values['name']
+    locationzip = request.values['locationzip']
     age = request.values['age']
     password = request.values['password']
 
@@ -88,6 +89,7 @@ def dosignup():
     new_user = create_user(email)
     new_user['name'] = name
     new_user['email'] = email
+    new_user['locationzip']=locationzip
     new_user['age'] = age
     new_user['password'] = generate_password_hash(password, method='sha256')
 
@@ -203,15 +205,25 @@ def show_profiles():
         return render_template('profiles.html', title="Profiles", users=users, nav=NAVBAR_AUTH)
     else:
         return login()
+@app.route('/roomateTinder')
+@app.route('/roomateTinder.html')
+def roomateTinder():
+    if get_user():
+        query = datastore.Client().query(kind = 'user')
+        query.add_filter("locationzip", "=", 15213)
+        users = list(query.fetch())
+        return render_template('roomateTinder.html', title="Matching", users=users, nav=NAVBAR_AUTH)
+    else:
+        return login()
 
 @app.route('/profile/<id>')
 def show_profile(id):
     if get_user():
         ## finish implementing this please!
-        user = datastore.Client().get(id)
-        if user:
-            return render_template('profile.html', title="Profile", user=user, nav=NAVBAR_AUTH)
-        else:
+        try:
+            user = datastore.Client().get(id)
+            return render_template('profile.html', title="Profile", user=user)
+        except: #if user does not exist dump back to all profiles
             return show_profiles()
     else:
         return login()
