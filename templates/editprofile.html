@@ -43,14 +43,16 @@ button:hover, a:hover {
 <h2 style="text-align:center">My Profile</h2>
 
 <div class="card">
-  <img src="{{user.picture}}" style="width:100%">
-  <h1>{{ user.name }}</h1>
-  <p class="title">I am {{ user.age}} years old</p>
-  <p>About Me</p>
-  <div style="margin: 24px 0;">
-    <p>
-    </p>
-  </div>
-  <p><button>Contact</button></p>
+    <form method = "post" action = "/saveprofile" enctype="multipart/form-data">
+        
+        Profile Picture:<input class="title" type="file" name = "picture"> 
+        Name:<input class="title" type="text" value={{user.name}} required name="name"></input>
+        Age: <input class="title" type="number" value={{user.age}} required name="age"></input>
+        <p>About Me</p>
+        <div style="margin: 24px 0;">
+        </div>
+        <button type = "submit">Save</button>
+
+    </form>
 </div>
 {% endblock %}
