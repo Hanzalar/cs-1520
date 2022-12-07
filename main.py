@@ -41,18 +41,23 @@ NAVBAR_NOAUTH = [
     ["/index.html#contact", "fa-envelope-o", "Contact"]
 ]
 
-def create_user(email):
+def create_user():
     client = datastore.Client()
 
-    if email:
-        key = client.key('user', email)
-    else:
-        key = client.key('user')
+    key = client.key('user')
 
     return datastore.Entity(key)
 
-def get_user():
+def get_user(): # for session checks
     return session.get('user', None)
+
+def loaduser(id):
+    query = datastore.Client().query(kind = 'user')
+    query.add_filter('id','=',id)
+
+    for user in query.fetch():
+        return user
+    return None
 
 @app.route('/')
 @app.route('/index.html')
@@ -69,7 +74,6 @@ def root():
             'Erasto'
         ] # this assumes that for name there is an image file at /static/images/name.png
         shuffle(founder_list) # random order of pics bc why not
-        if (founder_list[0] == 'David'): alert_msg = "This is an error!"
         return render_template('index.html', title='Home', names=founder_list, alert_msg=alert_msg, nav=NAVBAR_NOAUTH)
 
 
@@ -88,7 +92,7 @@ def dosignup():
         if user['email'] == email:
             return render_template('/login.html')
 
-    new_user = create_user(email)
+    new_user = create_user()
     new_user['name'] = name
     new_user['email'] = email
     new_user['locationzip']=locationzip
@@ -98,7 +102,7 @@ def dosignup():
 
     datastore.Client().put(new_user)
 
-    session['user'] = email
+    session['user'] = new_user['id']
 
     return render_template('profile.html', user = new_user, nav=NAVBAR_AUTH)
 
@@ -119,7 +123,7 @@ def dologin():
 
     if user and check_password_hash(user['password'], password):
         ''' add user to session '''
-        session['user'] = email
+        session['user'] = user['id']
         return render_template('profile.html', user = user, nav=NAVBAR_AUTH)
     
     return render_template('login.html', nav=NAVBAR_NOAUTH)
@@ -130,13 +134,6 @@ def logout():
     session['user'] = None
     return root()
 
-def loaduser(email):
-    query = datastore.Client().query(kind = 'user')
-    query.add_filter('email','=',email)
-
-    for user in query.fetch():
-        return user
-    return None
 
 @app.route('/editprofile')
 @app.route('/editprofile.html')
@@ -146,14 +143,14 @@ def editprofile():
 
 @app.route('/saveprofile', methods=["POST"])
 def saveprofile():
-    email = session['user']
-    user = loaduser(email)
+    id = session['user']
+    user = loaduser(id)
     user['name'] = request.values['name']
     user['age'] = request.values['age']
     file = request.files.get('picture')
     user['bio'] = request.values['bio']   
     bucket = storage.Client().get_bucket(BUCKET_NAME)
-    blob = bucket.blob(email)
+    blob = bucket.blob(id)
     c_type = file.content_type
     blob.upload_from_string(file.read(), content_type = c_type)
     user['picture'] = blob.public_url
