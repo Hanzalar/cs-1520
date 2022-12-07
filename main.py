@@ -201,8 +201,6 @@ def emailsubmission():
 
 @app.route('/profiles')
 @app.route('/profiles.html')
-@app.route('/profile')
-@app.route('/profile.html')
 def show_profiles():
     if get_user():
         query = datastore.Client().query(kind = 'testuser')
@@ -210,6 +208,12 @@ def show_profiles():
         return render_template('profiles.html', title="Profiles", users=users, nav=NAVBAR_AUTH)
     else:
         return login()
+
+@app.route('/profile')
+@app.route('/profile.html')
+def get_current_user():
+    return show_profile(session['user'])
+
 @app.route('/roomateTinder')
 @app.route('/roomateTinder.html')
 def roomateTinder():
