@@ -202,7 +202,6 @@ def emailsubmission():
 def show_user_profile():
     if get_user():
         user = loaduser(session['user'])
-        user = loaduser(email)
         return render_template('profile.html', title = "Profile", user = user, nav=NAVBAR_AUTH)
     else:
         return login()
