@@ -233,8 +233,8 @@ def show_profile(id):
     if get_user():
         ## finish implementing this please!
         try:
-            user = datastore.Client().get(id)
-            return render_template('profile.html', title="Profile", user=user)
+            user = load_user(id=id)
+            return render_template('profile.html', title="Profile", user=user, nav=NAVBAR_AUTH)
         except: #if user does not exist dump back to all profiles
             return show_profiles()
     else:
