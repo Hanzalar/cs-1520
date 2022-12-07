@@ -55,7 +55,7 @@ def load_user(id=id, email=email):
     query = datastore.Client().query(kind = 'user')
     if email:
         query.add_filter('email','=',email)
-    else if id:
+    elif id:
         query.add_filter('id','=',id)
 
     for user in query.fetch():
