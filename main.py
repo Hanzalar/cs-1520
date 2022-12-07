@@ -154,7 +154,7 @@ def saveprofile():
     file = request.files.get('picture')
     user['bio'] = request.values['bio']   
     bucket = storage.Client().get_bucket(BUCKET_NAME)
-    blob = bucket.blob(id)
+    blob = bucket.blob(str(id))
     c_type = file.content_type
     blob.upload_from_string(file.read(), content_type = c_type)
     user['picture'] = blob.public_url
