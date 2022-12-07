@@ -196,12 +196,19 @@ def emailsubmission():
          return render_template('JoinSuccess.html', title = "Success", Name = name, results = email, nav=NAVBAR_NOAUTH)
      except:
         return Join()
-
+    
+@app.route('/profile')
+@app.route('/profile.html')
+def show_user_profile():
+    if get_user():
+        user = loaduser(session['user'])
+        user = loaduser(email)
+        return render_template('profile.html', title = "Profile", user = user, nav=NAVBAR_AUTH)
+    else:
+        return login()
 
 @app.route('/profiles')
 @app.route('/profiles.html')
-@app.route('/profile')
-@app.route('/profile.html')
 def show_profiles():
     if get_user():
         query = datastore.Client().query(kind = 'user')
