@@ -51,9 +51,12 @@ def create_user():
 def get_user(): # for session checks
     return session.get('user', None)
 
-def loaduser(id):
+def load_user(id=id, email=email):
     query = datastore.Client().query(kind = 'user')
-    query.add_filter('id','=',id)
+    if email:
+        query.add_filter('email','=',email)
+    else if id:
+        query.add_filter('id','=',id)
 
     for user in query.fetch():
         return user
@@ -119,7 +122,7 @@ def dologin():
     email = request.values['email']
     password = request.values['password']
 
-    user = loaduser(email)
+    user = load_user(email=email)
 
     if user and check_password_hash(user['password'], password):
         ''' add user to session '''
@@ -138,13 +141,13 @@ def logout():
 @app.route('/editprofile')
 @app.route('/editprofile.html')
 def editprofile():
-    user = loaduser(session['user'])
+    user = load_user(id=session['user'])
     return render_template('editprofile.html', user = user, nav =NAVBAR_AUTH)
 
 @app.route('/saveprofile', methods=["POST"])
 def saveprofile():
     id = session['user']
-    user = loaduser(id)
+    user = load_user(id=id)
     user['name'] = request.values['name']
     user['age'] = request.values['age']
     file = request.files.get('picture')
@@ -211,7 +214,7 @@ def show_profiles():
 def roomateTinder():
     if get_user():
         query = datastore.Client().query(kind = 'user')
-        cuserage = loaduser(session['user'])['age']
+        cuserage = load_user(id=session['user'])['age']
         query.add_filter('age', '=',  cuserage)
         users =  list(query.fetch())
         return render_template('roomateTinder.html', title="Matching", users=users, nav=NAVBAR_AUTH)
