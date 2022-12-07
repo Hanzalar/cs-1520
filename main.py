@@ -51,7 +51,7 @@ def create_user():
 def get_user(): # for session checks
     return session.get('user', None)
 
-def load_user(id=id, email=email):
+def load_user(id=None, email=None):
     query = datastore.Client().query(kind = 'user')
     if email:
         query.add_filter('email','=',email)
