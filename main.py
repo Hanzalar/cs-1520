@@ -105,7 +105,7 @@ def dosignup():
 
     datastore.Client().put(new_user)
 
-    session['user'] = new_user.id
+    session['user'] = new_user.key.id
 
     return render_template('profile.html', user = new_user, nav=NAVBAR_AUTH)
 
@@ -126,7 +126,7 @@ def dologin():
 
     if user and check_password_hash(user['password'], password):
         ''' add user to session '''
-        session['user'] = user.id
+        session['user'] = user.key.id
         return render_template('profile.html', user = user, nav=NAVBAR_AUTH)
     
     return render_template('login.html', nav=NAVBAR_NOAUTH)
