@@ -44,7 +44,7 @@ NAVBAR_NOAUTH = [
 def create_user():
     client = datastore.Client()
 
-    key = client.key('user')
+    key = client.key('testuser')
 
     return datastore.Entity(key)
 
@@ -52,7 +52,7 @@ def get_user(): # for session checks
     return session.get('user', None)
 
 def load_user(id=None, email=None):
-    query = datastore.Client().query(kind = 'user')
+    query = datastore.Client().query(kind = 'testuser')
     if email:
         query.add_filter('email','=',email)
     elif id:
@@ -88,7 +88,7 @@ def dosignup():
     age = request.values['age']
     password = request.values['password']
     bio = request.values['bio']
-    user_exist = datastore.Client().query(kind = 'user')
+    user_exist = datastore.Client().query(kind = 'testuser')
     user_exist.add_filter('email','=', email)
     
     for user in user_exist.fetch():
@@ -204,7 +204,7 @@ def emailsubmission():
 @app.route('/profile.html')
 def show_profiles():
     if get_user():
-        query = datastore.Client().query(kind = 'user')
+        query = datastore.Client().query(kind = 'testuser')
         users = list(query.fetch())
         return render_template('profiles.html', title="Profiles", users=users, nav=NAVBAR_AUTH)
     else:
@@ -213,7 +213,7 @@ def show_profiles():
 @app.route('/roomateTinder.html')
 def roomateTinder():
     if get_user():
-        query = datastore.Client().query(kind = 'user')
+        query = datastore.Client().query(kind = 'testuser')
         cuserage = load_user(id=session['user'])['age']
         query.add_filter('age', '=',  cuserage)
         users =  list(query.fetch())
