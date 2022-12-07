@@ -103,6 +103,7 @@ def dosignup():
     new_user['age'] = age
     new_user['bio'] = bio
     new_user['password'] = generate_password_hash(password, method='sha256')
+    new_user['picture'] = '/static/images/blank-user.png'
 
     datastore.Client().put(new_user)
 
