@@ -226,9 +226,9 @@ def roomateTinder():
         intersect =user['yes'] + user['no'] + user['matched']
         query = datastore.Client().query(kind = 'user')
         users = list(query.fetch())
-        users = lambda users: (user not in intersect)
+        users = list(lambda users: (user not in intersect))
         session['count']=0
-        userViewingnow=users[session['count']] 
+        userViewingnow = users[0] 
 
         return render_template('roomateTinder.html', title="Matching", user = userViewingnow.email, nav=NAVBAR_AUTH)
     else:
