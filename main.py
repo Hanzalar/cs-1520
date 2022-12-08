@@ -105,6 +105,9 @@ def dosignup():
     new_user['password'] = generate_password_hash(password, method='sha256')
     new_user['picture'] = '/static/images/blank-user.png'
     new_user['picinc'] = 0
+    new_user['yes'] = list()
+    new_user['no'] = [new_user.key.id]
+    new_user['matched'] = list()
 
     datastore.Client().put(new_user)
 
@@ -200,7 +203,15 @@ def emailsubmission():
          return render_template('JoinSuccess.html', title = "Success", Name = name, results = email, nav=NAVBAR_NOAUTH)
      except:
         return Join()
-
+    
+@app.route('/profile')
+@app.route('/profile.html')
+def show_user_profile():
+    if get_user():
+        user = loaduser(session['user'])
+        return render_template('profile.html', title = "Profile", user = user, nav=NAVBAR_AUTH)
+    else:
+        return login()
 
 @app.route('/profiles')
 @app.route('/profiles.html')
@@ -222,6 +233,16 @@ def show_profile():
             return render_template('profile.html', title="Profile", user=user, nav=NAVBAR_AUTH)
         else: #if user does not exist dump back to all profiles
             return show_profiles()
+'''
+        user = loaduser(session['user'])
+        intersect =user['yes'] + user['no'] + user['matched']
+        query = datastore.Client().query(kind = 'user')
+        users = list(query.fetch())
+        users = list(lambda users: (user not in intersect))
+        session['count']=0
+        userViewingnow = users[0] 
+
+        return render_template('roomateTinder.html', title="Matching", user = userViewingnow.email, nav=NAVBAR_AUTH) '''
     else:
         return login()
 
