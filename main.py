@@ -216,7 +216,7 @@ def show_profiles():
 @app.route('/profile.html', methods=['GET'])
 def show_profile():
     if get_user():
-        id = request.args.get() if request.args.get() else session['user']
+        id = request.args.get('user') if request.args.get('user') else session['user']
         user = load_user(id=id)
         if user:
             return render_template('profile.html', title="Profile", user=user, nav=NAVBAR_AUTH)
