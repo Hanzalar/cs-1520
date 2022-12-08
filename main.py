@@ -95,6 +95,9 @@ def dosignup():
     new_user['age'] = age
     new_user['bio'] = bio
     new_user['password'] = generate_password_hash(password, method='sha256')
+    new_user['yes'] = list()
+    new_user['no'] = [email]
+    new_user['matched'] = list()
 
     datastore.Client().put(new_user)
 
@@ -219,11 +222,11 @@ def show_profiles():
 @app.route('/roomateTinder.html')
 def roomateTinder():
     if get_user():
+        user = loaduser(session['user'])
+        intersect =user['yes'] + user['no'] + user['matched']
         query = datastore.Client().query(kind = 'user')
-        cuserage = loaduser(session['user'])['age']
-        query.add_filter('age', '=',  cuserage)
-        users =  list(query.fetch())
-        return render_template('roomateTinder.html', title="Matching", users=users, nav=NAVBAR_AUTH)
+        users = list(query.fetch())
+        return render_template('roomateTinder.html', title="Matching", users=users, intersect = intersect, nav=NAVBAR_AUTH)
     else:
         return login()
 
