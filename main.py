@@ -104,6 +104,7 @@ def dosignup():
     new_user['bio'] = bio
     new_user['password'] = generate_password_hash(password, method='sha256')
     new_user['picture'] = '/static/images/blank-user.png'
+    new_user['picinc'] = 0
 
     datastore.Client().put(new_user)
 
@@ -159,6 +160,7 @@ def saveprofile():
     c_type = file.content_type
     blob.upload_from_string(file.read(), content_type = c_type)
     user['picture'] = blob.public_url
+    user['picinc'] += 1
     datastore.Client().put(user)    
     return render_template('profile.html', user = user, nav = NAVBAR_AUTH)
 
