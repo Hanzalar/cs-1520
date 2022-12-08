@@ -1460,6 +1460,10 @@ a{
     padding: 50px;
     background-color: #485358;
   }
+  .w3-round-button{
+    border-radius: 30px;
+    padding: 50px;
+  }
   #myNavbar{
     background-color: #485358;
     vertical-align: middle;
@@ -1544,8 +1548,5 @@ a{
   
   }
 
- .logo{
-    font-family: 'Lato', sans-serif;
-    font-style: italic;
-    color: black!important
-}
+  
+  
