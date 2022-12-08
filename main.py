@@ -212,10 +212,18 @@ def show_profiles():
     else:
         return login()
 
-@app.route('/profile')
-@app.route('/profile.html')
-def get_current_user():
-    return show_profile(session['user'])
+@app.route('/profile', methods=['GET'])
+@app.route('/profile.html', methods=['GET'])
+def show_profile(userid):
+    if get_user():
+        id = request.args.get() if request.args.get() else session['user']
+        user = load_user(id=id)
+        if user:
+            return render_template('profile.html', title="Profile", user=user, nav=NAVBAR_AUTH)
+        else: #if user does not exist dump back to all profiles
+            return show_profiles()
+    else:
+        return login()
 
 @app.route('/roomateTinder')
 @app.route('/roomateTinder.html')
@@ -226,20 +234,6 @@ def roomateTinder():
         query.add_filter('age', '=',  cuserage)
         users =  list(query.fetch())
         return render_template('roomateTinder.html', title="Matching", users=users, nav=NAVBAR_AUTH)
-    else:
-        return login()
-
-
-
-@app.route('/profile/<userid>')
-def show_profile(userid):
-    if get_user():
-        ## finish implementing this please!
-        try:
-            user = load_user(id=userid)
-            return render_template('profile.html', title="Profile", user=user, nav=NAVBAR_AUTH)
-        except: #if user does not exist dump back to all profiles
-            return show_profiles()
     else:
         return login()
 
