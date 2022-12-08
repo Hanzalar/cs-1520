@@ -267,7 +267,7 @@ def error404(e):
     nav = NAVBAR_AUTH if get_user() else NAVBAR_NOAUTH
     return render_template('404.html', title='404', nav=nav), 404
 
-@app.route('sanitize', methods=['GET'])
+@app.route('/sanitize', methods=['GET'])
 def sanitize():
     ''' hidden function to fill db entries o_o '''
 
