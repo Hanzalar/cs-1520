@@ -233,7 +233,7 @@ def show_profile():
             return render_template('profile.html', title="Profile", user=user, nav=NAVBAR_AUTH)
         else: #if user does not exist dump back to all profiles
             return show_profiles()
-'''
+        '''
         user = loaduser(session['user'])
         intersect =user['yes'] + user['no'] + user['matched']
         query = datastore.Client().query(kind = 'user')
