@@ -214,7 +214,7 @@ def show_profiles():
 
 @app.route('/profile', methods=['GET'])
 @app.route('/profile.html', methods=['GET'])
-def show_profile(userid):
+def show_profile():
     if get_user():
         id = request.args.get() if request.args.get() else session['user']
         user = load_user(id=id)
