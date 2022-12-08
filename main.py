@@ -229,11 +229,13 @@ def show_profile():
 @app.route('/roomateTinder.html')
 def roomateTinder():
     if get_user():
-        query = datastore.Client().query(kind = 'testuser')
-        cuserage = load_user(id=session['user'])['age']
-        query.add_filter('age', '=',  cuserage)
-        users =  list(query.fetch())
-        return render_template('roomateTinder.html', title="Matching", users=users, nav=NAVBAR_AUTH)
+        user = load_user(session['user'])
+        intersect =user['yes'] + user['no'] + user['matched']
+        query = datastore.Client().query(kind = 'user')
+        currentusers=list(query.fetch())
+        users = [i for i in currentusers if i not in intersect]
+        userViewingnow=users[0] 
+        return render_template('roomateTinder.html', title="Matching", user = userViewingnow, nav=NAVBAR_AUTH)
     else:
         return login()
 
