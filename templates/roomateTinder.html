@@ -1,19 +1,18 @@
 {% extends '_base.html' %}
 {% block content %}
-<div class="w3-container">
-{% for user in users %}
-{% if user.email not in intersect %}
+
+<div class="w3-container" style="margin: 100px;">
+
 <div class=" w3-center w3-container">
     <div class="w3-card-4" style="border-radius: 20px;">
         <a href="/profile/{{ user.id }}"><img src="/static/images/demo-users/{{ user.id }}.jpg" style="width: 100%"></a>
         <div class="w3-container w3-center">
-            <h3>{{ user.name }}</h3><br>
-            <p class="w3-half w3-large w3-button"> &#x274c;</p>
-            <p class="w3-half w3-large w3-button">&#x2705;</p>
+            <h3>{{ user.name[count] }}</h3><br>
+            <p class="w3-half w3-large w3-button w3-centered"> &#x274c;</p>
+            <p class="w3-half w3-large w3-button w3-centered">&#x2705;</p>
         </div>
     </div>
 </div>
-{% endif %}
-{% endfor %}
+
 </div></div>
 {% endblock %}
