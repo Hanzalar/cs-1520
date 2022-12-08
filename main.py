@@ -231,12 +231,12 @@ def roomateTinder():
 
 
 
-@app.route('/profile/<id>')
-def show_profile(id):
+@app.route('/profile/<userid>')
+def show_profile(userid):
     if get_user():
         ## finish implementing this please!
         try:
-            user = load_user(id=id)
+            user = load_user(id=userid)
             return render_template('profile.html', title="Profile", user=user, nav=NAVBAR_AUTH)
         except: #if user does not exist dump back to all profiles
             return show_profiles()
