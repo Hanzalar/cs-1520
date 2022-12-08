@@ -288,8 +288,7 @@ def sanitize():
             user['no'] = [int(user.key.id)]
             user['matched'] = list()
             datastore.Client().put(user)
-            print('done with user %d',int(user.key.id))
-    
+                
     return root()
 
 if __name__ == '__main__':
