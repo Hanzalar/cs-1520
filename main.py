@@ -217,7 +217,6 @@ def show_profiles():
 def show_profile():
     if get_user():
         id = request.args.get('user') if request.args.get('user') else session['user']
-        print(id)
         user = load_user(id=int(id))
         if user:
             return render_template('profile.html', title="Profile", user=user, nav=NAVBAR_AUTH)
