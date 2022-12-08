@@ -267,5 +267,29 @@ def error404(e):
     nav = NAVBAR_AUTH if get_user() else NAVBAR_NOAUTH
     return render_template('404.html', title='404', nav=nav), 404
 
+@app.route('sanitize', methods=['GET'])
+def sanitize():
+    ''' hidden function to fill db entries o_o '''
+
+    # get secret key
+    client = secretmanager.SecretManagerServiceClient()
+
+    # Access the secret version.
+    response = client.access_secret_version(name='projects/370368880243/secrets/sanitize/versions/1')
+
+    # Return the decoded payload.
+    secret = response.payload.data.decode('UTF-8')
+
+    if secret == request.args.get('s'):
+        query = datastore.Client().query(kind = 'testuser')
+        users = list(query.fetch())
+        for u in users:
+            if not u['yes']: u['yes'] = list()
+            if not u['no']: u['no'] = [int(u.key.id)]
+            if not u['matched']: u['matched'] = list()
+            datastore.Client().put(u)
+    
+    return root()
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
