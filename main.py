@@ -252,7 +252,7 @@ def roomateTinder():
     if get_user():
         user = load_user(session['user'])
         intersect =user['yes'] + user['no'] + user['matched']
-        query = datastore.Client().query(kind = 'user')
+        query = datastore.Client().query(kind = 'testuser')
         currentusers=list(query.fetch())
         users = [i for i in currentusers if i not in intersect]
         userViewingnow=users[0] 
