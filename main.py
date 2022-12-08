@@ -208,7 +208,7 @@ def emailsubmission():
 @app.route('/profile.html')
 def show_user_profile():
     if get_user():
-        user = loaduser(session['user'])
+        user = load_user(session['user'])
         return render_template('profile.html', title = "Profile", user = user, nav=NAVBAR_AUTH)
     else:
         return login()
@@ -288,7 +288,7 @@ def sanitize():
             user['no'] = [int(user.key.id)]
             user['matched'] = list()
             datastore.Client().put(user)
-                
+
     return root()
 
 if __name__ == '__main__':
