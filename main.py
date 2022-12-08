@@ -203,15 +203,6 @@ def emailsubmission():
          return render_template('JoinSuccess.html', title = "Success", Name = name, results = email, nav=NAVBAR_NOAUTH)
      except:
         return Join()
-    
-@app.route('/profile')
-@app.route('/profile.html')
-def show_user_profile():
-    if get_user():
-        user = load_user(session['user'])
-        return render_template('profile.html', title = "Profile", user = user, nav=NAVBAR_AUTH)
-    else:
-        return login()
 
 @app.route('/profiles')
 @app.route('/profiles.html')
