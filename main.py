@@ -41,18 +41,27 @@ NAVBAR_NOAUTH = [
     ["/index.html#contact", "fa-envelope-o", "Contact"]
 ]
 
-def create_user(email):
+def create_user():
     client = datastore.Client()
 
-    if email:
-        key = client.key('user', email)
-    else:
-        key = client.key('user')
+    key = client.key('testuser')
 
     return datastore.Entity(key)
 
-def get_user():
+def get_user(): # for session checks
     return session.get('user', None)
+
+def load_user(id=None, email=None):
+    query = datastore.Client().query(kind = 'testuser')
+    if email:
+        query.add_filter('email','=',email)
+    elif id:
+        key = datastore.Client().key('testuser',id)
+        query.key_filter(key)
+
+    for user in query.fetch():
+        return user
+    return None
 
 @app.route('/')
 @app.route('/index.html')
@@ -69,7 +78,6 @@ def root():
             'Erasto'
         ] # this assumes that for name there is an image file at /static/images/name.png
         shuffle(founder_list) # random order of pics bc why not
-        if (founder_list[0] == 'David'): alert_msg = "This is an error!"
         return render_template('index.html', title='Home', names=founder_list, alert_msg=alert_msg, nav=NAVBAR_NOAUTH)
 
 
@@ -81,27 +89,29 @@ def dosignup():
     age = request.values['age']
     password = request.values['password']
     bio = request.values['bio']
-    user_exist = datastore.Client().query(kind = 'user')
+    user_exist = datastore.Client().query(kind = 'testuser')
     user_exist.add_filter('email','=', email)
     
     for user in user_exist.fetch():
         if user['email'] == email:
             return render_template('/login.html')
 
-    new_user = create_user(email)
+    new_user = create_user()
     new_user['name'] = name
     new_user['email'] = email
     new_user['locationzip']=locationzip
     new_user['age'] = age
     new_user['bio'] = bio
     new_user['password'] = generate_password_hash(password, method='sha256')
+    new_user['picture'] = '/static/images/blank-user.png'
+    new_user['picinc'] = 0
     new_user['yes'] = list()
-    new_user['no'] = [email]
+    new_user['no'] = [new_user.key.id]
     new_user['matched'] = list()
 
     datastore.Client().put(new_user)
 
-    session['user'] = email
+    session['user'] = new_user.key.id
 
     return render_template('profile.html', user = new_user, nav=NAVBAR_AUTH)
 
@@ -118,11 +128,11 @@ def dologin():
     email = request.values['email']
     password = request.values['password']
 
-    user = loaduser(email)
+    user = load_user(email=email)
 
     if user and check_password_hash(user['password'], password):
         ''' add user to session '''
-        session['user'] = email
+        session['user'] = user.key.id
         return render_template('profile.html', user = user, nav=NAVBAR_AUTH)
     
     return render_template('login.html', nav=NAVBAR_NOAUTH)
@@ -133,33 +143,27 @@ def logout():
     session['user'] = None
     return root()
 
-def loaduser(email):
-    query = datastore.Client().query(kind = 'user')
-    query.add_filter('email','=',email)
-
-    for user in query.fetch():
-        return user
-    return None
 
 @app.route('/editprofile')
 @app.route('/editprofile.html')
 def editprofile():
-    user = loaduser(session['user'])
+    user = load_user(id=session['user'])
     return render_template('editprofile.html', user = user, nav =NAVBAR_AUTH)
 
 @app.route('/saveprofile', methods=["POST"])
 def saveprofile():
-    email = session['user']
-    user = loaduser(email)
+    id = session['user']
+    user = load_user(id=id)
     user['name'] = request.values['name']
     user['age'] = request.values['age']
     file = request.files.get('picture')
     user['bio'] = request.values['bio']   
     bucket = storage.Client().get_bucket(BUCKET_NAME)
-    blob = bucket.blob(email)
+    blob = bucket.blob(str(id))
     c_type = file.content_type
     blob.upload_from_string(file.read(), content_type = c_type)
     user['picture'] = blob.public_url
+    user['picinc'] += 1
     datastore.Client().put(user)    
     return render_template('profile.html', user = user, nav = NAVBAR_AUTH)
 
@@ -213,15 +217,23 @@ def show_user_profile():
 @app.route('/profiles.html')
 def show_profiles():
     if get_user():
-        query = datastore.Client().query(kind = 'user')
+        query = datastore.Client().query(kind = 'testuser')
         users = list(query.fetch())
         return render_template('profiles.html', title="Profiles", users=users, nav=NAVBAR_AUTH)
     else:
         return login()
-@app.route('/roomateTinder')
-@app.route('/roomateTinder.html')
-def roomateTinder():
+
+@app.route('/profile', methods=['GET'])
+@app.route('/profile.html', methods=['GET'])
+def show_profile():
     if get_user():
+        id = request.args.get('user') if request.args.get('user') else session['user']
+        user = load_user(id=int(id))
+        if user:
+            return render_template('profile.html', title="Profile", user=user, nav=NAVBAR_AUTH)
+        else: #if user does not exist dump back to all profiles
+            return show_profiles()
+'''
         user = loaduser(session['user'])
         intersect =user['yes'] + user['no'] + user['matched']
         query = datastore.Client().query(kind = 'user')
@@ -230,21 +242,21 @@ def roomateTinder():
         session['count']=0
         userViewingnow = users[0] 
 
-        return render_template('roomateTinder.html', title="Matching", user = userViewingnow.email, nav=NAVBAR_AUTH)
+        return render_template('roomateTinder.html', title="Matching", user = userViewingnow.email, nav=NAVBAR_AUTH) '''
     else:
         return login()
 
-
-
-@app.route('/profile/<id>')
-def show_profile(id):
+@app.route('/roomateTinder')
+@app.route('/roomateTinder.html')
+def roomateTinder():
     if get_user():
-        ## finish implementing this please!
-        try:
-            user = datastore.Client().get(id)
-            return render_template('profile.html', title="Profile", user=user)
-        except: #if user does not exist dump back to all profiles
-            return show_profiles()
+        user = load_user(session['user'])
+        intersect =user['yes'] + user['no'] + user['matched']
+        query = datastore.Client().query(kind = 'user')
+        currentusers=list(query.fetch())
+        users = [i for i in currentusers if i not in intersect]
+        userViewingnow=users[0] 
+        return render_template('roomateTinder.html', title="Matching", user = userViewingnow, nav=NAVBAR_AUTH)
     else:
         return login()
 
