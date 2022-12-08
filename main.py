@@ -283,11 +283,12 @@ def sanitize():
     if secret == request.args.get('s'):
         query = datastore.Client().query(kind = 'testuser')
         users = list(query.fetch())
-        for u in users:
-            u['yes'] = list()
-            u['no'] = [int(u.key.id)]
-            u['matched'] = list()
-            datastore.Client().put(u)
+        for user in users:
+            user['yes'] = list()
+            user['no'] = [int(user.key.id)]
+            user['matched'] = list()
+            datastore.Client().put(user)
+            print('done with user %d',int(user.key.id))
     
     return root()
 
