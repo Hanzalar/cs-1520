@@ -272,6 +272,8 @@ def match():
         curruser['yes'].append(request.values['user'])
    if request.values['match'] == "reject":
         curruser['no'].append(request.values['user'])
+
+   datastore.Client().put(curruser)
    return roomateTinder()
 
 @app.errorhandler(404)
