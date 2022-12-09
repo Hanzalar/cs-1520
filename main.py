@@ -14,6 +14,7 @@ app = Flask(__name__)
 
 BUCKET_NAME = "grouph-bucket"
 
+
 def get_secret_key():
     ''' pull flask secret key from google secret manager, not in plaintext! '''
     # Create the Secret Manager client.
@@ -51,6 +52,14 @@ def create_user():
 def get_user(): # for session checks
     return session.get('user', None)
 
+def get_Suitors(): # for getting list of elegible bacelor/bachloretes
+    user = load_user(session['user'])
+    intersect =user['yes'] + user['no'] + user['matched']
+    query = datastore.Client().query(kind = 'testuser')
+    currentusers=list(query.fetch())
+    users = [i for i in currentusers if i not in intersect]
+    return  users
+
 def load_user(id=None, email=None):
     query = datastore.Client().query(kind = 'testuser')
     if email:
@@ -62,6 +71,7 @@ def load_user(id=None, email=None):
     for user in query.fetch():
         return user
     return None
+
 
 @app.route('/')
 @app.route('/index.html')
@@ -241,12 +251,9 @@ def show_profile():
 @app.route('/roomateTinder.html')
 def roomateTinder():
     if get_user():
-        user = load_user(session['user'])
-        intersect =user['yes'] + user['no'] + user['matched']
-        query = datastore.Client().query(kind = 'testuser')
-        currentusers=list(query.fetch())
-        users = [i for i in currentusers if i not in intersect]
-        userViewingnow=users[0] 
+        session["count"]=0
+        userViewingnow=get_Suitors()[session["count"]] 
+        session["count"]+=1
         return render_template('roomateTinder.html', title="Matching", user = userViewingnow, nav=NAVBAR_AUTH)
     else:
         return login()
