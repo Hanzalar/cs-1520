@@ -117,7 +117,7 @@ def dosignup():
     new_user['picture'] = '/static/images/blank-user.png'
     new_user['picinc'] = 0
     new_user['yes'] = list()
-    new_user['no'] = [int(new_user.key.id)]
+    new_user['no'] = [new_user.key.id]
     new_user['matched'] = list()
 
     datastore.Client().put(new_user)
@@ -268,9 +268,9 @@ def match():
    session["count"]+=1
    curruser = load_user(session['user'])
    if request.values['match'] == "accept":
-        curruser['yes'].append(request.values['user'])
+        curruser['yes'].append(int(request.values['user'].key.id))
    if request.values['match'] == "reject":
-        curruser['no'].append(request.values['user'])
+        curruser['no'].append(int(request.values['user'].key.id))
 
    datastore.Client().put(curruser)
    return roomateTinder()
