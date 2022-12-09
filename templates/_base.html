@@ -61,6 +61,32 @@
     {% endfor %}
   </nav>
 
+  <section> <!-- alerts -->
+    {% if error %}
+    <div class="w3-panel w3-red w3-display-container w3-round-large">
+      <span onclick="this.parentElement.style.display='none'"
+      class="w3-button w3-large w3-display-topright">&times;</span>
+      <h3>{{ error }}</h3>
+    </div>
+    {% end if %}
+
+    {% if warning %}
+    <div class="w3-panel w3-yellow w3-display-container w3-round-large">
+      <span onclick="this.parentElement.style.display='none'"
+      class="w3-button w3-large w3-display-topright">&times;</span>
+      <h3>{{ warning }}</h3>
+    </div>
+    {% end if %}
+    
+    {% if success %}
+    <div class="w3-panel w3-green w3-display-container w3-round-large">
+      <span onclick="this.parentElement.style.display='none'"
+      class="w3-button w3-large w3-display-topright">&times;</span>
+      <h3>{{ success }}</h3>
+    </div>
+    {% end if %}
+  </section>
+  
     <section>
         {% block content %} {% endblock %}
     </section>
