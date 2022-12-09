@@ -11,7 +11,7 @@
             
             <h3 class="w3-large">{{ user.name }}</h3><br>
             <form action="/match" method="post">
-            <input type="hidden" name="user" value="{{user.id}}">
+            <input type="hidden" name="userid" value="{{user.key.id}}">
             <button name="match" value="reject" class="w3-half w3-large w3-button w3-centered"> &#x274c;</button>
             <button name="match" value="accept" class="w3-half w3-large w3-button w3-centered">&#x2705;</button>
             </form>
