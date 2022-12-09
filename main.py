@@ -15,6 +15,7 @@ app = Flask(__name__)
 BUCKET_NAME = "grouph-bucket"
 
 
+
 def get_secret_key():
     ''' pull flask secret key from google secret manager, not in plaintext! '''
     # Create the Secret Manager client.
@@ -27,6 +28,7 @@ def get_secret_key():
     return response.payload.data.decode('UTF-8')
 
 app.secret_key = get_secret_key() # so we can have session cookies
+
 
 NAVBAR_AUTH = [
     ["/profile.html", "fa-user-circle-o", "My Profile"],
@@ -129,6 +131,7 @@ def dosignup():
 @app.route('/login.html')
 def login():
     if get_user(): # if you're logged in go back to profiles
+        session["count"]=0
         return show_profiles()
     else:
         return render_template('login.html', nav=NAVBAR_NOAUTH)
@@ -247,16 +250,38 @@ def show_profile():
     else:
         return login()
 
-@app.route('/roomateTinder')
+@app.route('/aacept' )
+@app.route('/reject' )
 @app.route('/roomateTinder.html')
 def roomateTinder():
     if get_user():
-        session["count"]=0
-        userViewingnow=get_Suitors()[session["count"]] 
-        session["count"]+=1
-        return render_template('roomateTinder.html', title="Matching", user = userViewingnow, nav=NAVBAR_AUTH)
+        potRoom = get_Suitors()   
+        if session["count"]<= len(potRoom):
+            userViewingnow=potRoom[session["count"]]
+            return render_template('roomateTinder.html', title="Matching", user = userViewingnow, nav=NAVBAR_AUTH, )
+        else:
+            return show_profiles()
+        
     else:
         return login()
+
+@app.route('/match', methods=['POST'])
+def match():
+   session["count"]+=1
+   return roomateTinder()
+
+@app.route('/accept', methods=['POST'])
+@app.route('/roomateTinder.html' )
+def accept():
+   session["count"]+=1
+   return roomateTinder()
+
+@app.route('/accept', methods=['POST'])
+@app.route('/roomateTinder.html')
+def reject():
+   session["count"]+=1
+   return roomateTinder()
+
 
 @app.errorhandler(404)
 @app.route('/404.html')
