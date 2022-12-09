@@ -306,9 +306,7 @@ def sanitize():
         query = datastore.Client().query(kind = 'testuser')
         users = list(query.fetch())
         for user in users:
-            user['yes'] = list()
             user['no'] = [int(user.key.id)]
-            user['matched'] = list()
             datastore.Client().put(user)
 
     return root()
