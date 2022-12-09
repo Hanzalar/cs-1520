@@ -6,12 +6,12 @@
 <div class=" w3-center w3-container">
     <div class="w3-card-4" style="border-radius: 20px;">
         
-        <a href="/profile/{{ user.id }}"><img src="/static/images/demo-users/{{ user.id }}.jpg" style="width: 100%"></a>
+        <a href="/profile?user={{ user.id }}"><img src="{{user.picture}}?{{user.picinc}}" style="width: 100%"></a>
         <div class="w3-container w3-center">
             <h3 class="w3-large">{{ user.name }}</h3><br>
-            <form  >
-            <button method="post" action="/accept" class="w3-half w3-large w3-button w3-centered"> &#x274c;</button>
-            <button method="post" action="/reject" class="w3-half w3-large w3-button w3-centered">&#x2705;</button>
+            <form action="/match" method="post">
+            <button name="match" value="reject" class="w3-half w3-large w3-button w3-centered"> &#x274c;</button>
+            <button name="match" value="accept" class="w3-half w3-large w3-button w3-centered">&#x2705;</button>
             </form>
         </div>
     </div>

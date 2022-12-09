@@ -130,7 +130,6 @@ def dosignup():
 @app.route('/login.html')
 def login():
     if get_user(): # if you're logged in go back to profiles
-        session["count"]=0
         return show_profiles()
     else:
         return render_template('login.html', nav=NAVBAR_NOAUTH)
@@ -145,6 +144,7 @@ def dologin():
     if user and check_password_hash(user['password'], password):
         ''' add user to session '''
         session['user'] = user.key.id
+        session["count"]=0
         return render_template('profile.html', user = user, nav=NAVBAR_AUTH)
     
     return render_template('login.html', nav=NAVBAR_NOAUTH)
@@ -253,7 +253,7 @@ def show_profile():
 def roomateTinder():
     if get_user():
         potRoom = get_Suitors()   
-        if session["count"]<= len(potRoom):
+        if session["count"] <= len(potRoom) - 1:
             userViewingnow=potRoom[session["count"]]
             return render_template('roomateTinder.html', title="Matching", user = userViewingnow, nav=NAVBAR_AUTH )
         else:
@@ -264,19 +264,9 @@ def roomateTinder():
 
 @app.route('/match', methods=['POST'])
 def match():
+   print(request.values['match'])
    session["count"]+=1
    return roomateTinder()
-
-@app.route('/accept', methods=['POST'])
-def accept():
-   session["count"]+=1
-   return roomateTinder()
-
-@app.route('/reject', methods=['POST'])
-def reject():
-   session["count"]+=1
-   return roomateTinder()
-
 
 @app.errorhandler(404)
 @app.route('/404.html')
