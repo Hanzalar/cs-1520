@@ -270,13 +270,11 @@ def match():
    return roomateTinder()
 
 @app.route('/accept', methods=['POST'])
-@app.route('/roomateTinder.html' )
 def accept():
    session["count"]+=1
    return roomateTinder()
 
-@app.route('/accept', methods=['POST'])
-@app.route('/roomateTinder.html')
+@app.route('/reject', methods=['POST'])
 def reject():
    session["count"]+=1
    return roomateTinder()
