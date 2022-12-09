@@ -117,7 +117,7 @@ def dosignup():
     new_user['picture'] = '/static/images/blank-user.png'
     new_user['picinc'] = 0
     new_user['yes'] = list()
-    new_user['no'] = [int(new_user.key.id)]
+    new_user['no'] = [new_user.key.id]
     new_user['matched'] = list()
 
     datastore.Client().put(new_user)
