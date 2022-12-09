@@ -269,9 +269,9 @@ def match():
    session["count"]+=1
    curruser = load_user(session['user'])
    if request.values['match'] == "accept":
-        curruser['yes'].append(request.values['user'])
+        curruser['yes'].append(int(request.values['user'].key.id))
    if request.values['match'] == "reject":
-        curruser['no'].append(request.values['user'])
+        curruser['no'].append(int(request.values['user'].key.id))
 
    datastore.Client().put(curruser)
    return roomateTinder()
