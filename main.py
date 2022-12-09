@@ -82,7 +82,6 @@ def root():
     if get_user(): # if you're logged in go back to profiles
         return show_profiles()
     else: # show regular home page
-        alert_msg = None
         founder_list = [
             'Hanzala',
             'David',
@@ -90,7 +89,7 @@ def root():
             'Erasto'
         ] # this assumes that for name there is an image file at /static/images/name.png
         shuffle(founder_list) # random order of pics bc why not
-        return render_template('index.html', title='Home', names=founder_list, alert_msg=alert_msg, nav=NAVBAR_NOAUTH)
+        return render_template('index.html', title='Home', names=founder_list, success='Alerts work now!', nav=NAVBAR_NOAUTH)
 
 
 @app.route('/signup', methods=['POST'])
