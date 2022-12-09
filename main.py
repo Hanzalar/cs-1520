@@ -35,6 +35,7 @@ NAVBAR_AUTH = [
     ["/logout.html", "fa-user-circle-o", "Log Out"],
     ["/editprofile.html", "fa-pencil-square-o", "Edit Profile"],
     ["/roomateTinder.html", "fa-search-plus", "Find A Match"]
+    ["/profiles.html", "fa-search-plus", "Show Match"]
 ]
 
 NAVBAR_NOAUTH = [
