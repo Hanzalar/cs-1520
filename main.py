@@ -249,15 +249,14 @@ def show_profile():
     else:
         return login()
 
-@app.route('/aacept' )
-@app.route('/reject' )
+
 @app.route('/roomateTinder.html')
 def roomateTinder():
     if get_user():
         potRoom = get_Suitors()   
         if session["count"]<= len(potRoom):
             userViewingnow=potRoom[session["count"]]
-            return render_template('roomateTinder.html', title="Matching", user = userViewingnow, nav=NAVBAR_AUTH, )
+            return render_template('roomateTinder.html', title="Matching", user = userViewingnow, nav=NAVBAR_AUTH )
         else:
             return show_profiles()
         
@@ -270,13 +269,11 @@ def match():
    return roomateTinder()
 
 @app.route('/accept', methods=['POST'])
-@app.route('/roomateTinder.html' )
 def accept():
    session["count"]+=1
    return roomateTinder()
 
-@app.route('/accept', methods=['POST'])
-@app.route('/roomateTinder.html')
+@app.route('/reject', methods=['POST'])
 def reject():
    session["count"]+=1
    return roomateTinder()
