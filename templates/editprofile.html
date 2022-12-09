@@ -44,12 +44,12 @@ width: 80px;
 </style>
 </head>
 <body>
-<h2 style="text-align:center; margin: 50px;">My Profile</h2>
+<h2 style="text-align:center; margin: 70px;">My Profile</h2>
 
-<div class=" w3-card w3-twothird w3-centered " style="margin: 100px;">
+<div class=" w3-card w3-onethird w3-centered " style="margin: 70px;">
     <form method = "post" action = "/saveprofile" enctype="multipart/form-data">
       Profile Picture:<input class="title" type="file" name = "picture"> 
-        Name:<input class="title" type="text" value={{user.name}} required name="name"></input>
+        Name:<input class="title" type="text" value={{user.name}} required name="name"></input> 
         Age: <input class="title" type="number" value={{user.age}} required name="age"></input>
         <p>About Me</p>
         <textarea class="bio-input" id="bio-input" type="text" rows="8" name = "bio"  maxlength = "200">{{user.bio}}</textarea> 
@@ -59,4 +59,5 @@ width: 80px;
 
     </form>
 </div>
+
 {% endblock %}
