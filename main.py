@@ -59,7 +59,7 @@ def get_Suitors(): # for getting list of elegible bacelor/bachloretes
     intersect =user['yes'] + user['no'] + user['matched']
     query = datastore.Client().query(kind = 'testuser')
     currentusers=list(query.fetch())
-    users = [int(i.key.id) for i in currentusers if int(i.key.id) not in intersect]
+    users = [i for i in currentusers if i not in intersect]
     return  users
 
 def load_user(id=None, email=None):
@@ -268,9 +268,9 @@ def match():
    session["count"]+=1
    curruser = load_user(session['user'])
    if request.values['match'] == "accept":
-        curruser['yes'].append(int(request.values['user']))
+        curruser['yes'].append((request.values['user']))
    if request.values['match'] == "reject":
-        curruser['no'].append(int(request.values['user']))
+        curruser['no'].append((request.values['user']))
 
    datastore.Client().put(curruser)
    return roomateTinder()
