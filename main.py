@@ -74,6 +74,11 @@ def load_user(id=None, email=None):
         return user
     return None
 
+def get_matches(): # for getting list of matches
+    user = load_user(session['user'])
+    match = user['matched']
+    return match
+
 
 @app.route('/')
 @app.route('/index.html')
@@ -117,7 +122,7 @@ def dosignup():
     new_user['picture'] = '/static/images/blank-user.png'
     new_user['picinc'] = 0
     new_user['yes'] = list()
-    new_user['no'] = [new_user]
+    new_user['no'] = [new_user.key.id]
     new_user['matched'] = list()
 
     datastore.Client().put(new_user)
@@ -220,8 +225,7 @@ def emailsubmission():
 @app.route('/profiles.html')
 def show_profiles():
     if get_user():
-        query = datastore.Client().query(kind = 'testuser')
-        users = list(query.fetch())
+        users = get_matches()
         return render_template('profiles.html', title="Profiles", users=users, nav=NAVBAR_AUTH)
     else:
         return login()
