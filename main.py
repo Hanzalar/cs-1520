@@ -267,6 +267,11 @@ def roomateTinder():
 def match():
    print(request.values['match'])
    session["count"]+=1
+   curruser = load_user(session['user'])
+   if request.values['match'] == "accept":
+        curruser['yes'].append(request.values['user'])
+   if request.values['match'] == "reject":
+        curruser['no'].append(request.values['user'])
    return roomateTinder()
 
 @app.errorhandler(404)
