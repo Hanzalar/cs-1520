@@ -14,6 +14,8 @@ app = Flask(__name__)
 
 BUCKET_NAME = "grouph-bucket"
 
+
+
 def get_secret_key():
     ''' pull flask secret key from google secret manager, not in plaintext! '''
     # Create the Secret Manager client.
@@ -26,6 +28,7 @@ def get_secret_key():
     return response.payload.data.decode('UTF-8')
 
 app.secret_key = get_secret_key() # so we can have session cookies
+
 
 NAVBAR_AUTH = [
     ["/profile.html", "fa-user-circle-o", "My Profile"],
@@ -51,6 +54,14 @@ def create_user():
 def get_user(): # for session checks
     return session.get('user', None)
 
+def get_Suitors(): # for getting list of elegible bacelor/bachloretes
+    user = load_user(session['user'])
+    intersect =user['yes'] + user['no'] + user['matched']
+    query = datastore.Client().query(kind = 'testuser')
+    currentusers=list(query.fetch())
+    users = [i for i in currentusers if i not in intersect]
+    return  users
+
 def load_user(id=None, email=None):
     query = datastore.Client().query(kind = 'testuser')
     if email:
@@ -62,6 +73,7 @@ def load_user(id=None, email=None):
     for user in query.fetch():
         return user
     return None
+
 
 @app.route('/')
 @app.route('/index.html')
@@ -106,7 +118,7 @@ def dosignup():
     new_user['picture'] = '/static/images/blank-user.png'
     new_user['picinc'] = 0
     new_user['yes'] = list()
-    new_user['no'] = [new_user.key.id]
+    new_user['no'] = [int(user.key.id)]
     new_user['matched'] = list()
 
     datastore.Client().put(new_user)
@@ -119,6 +131,7 @@ def dosignup():
 @app.route('/login.html')
 def login():
     if get_user(): # if you're logged in go back to profiles
+        session["count"]=0
         return show_profiles()
     else:
         return render_template('login.html', nav=NAVBAR_NOAUTH)
@@ -232,24 +245,42 @@ def show_profile():
         users = list(lambda users: (user not in intersect))
         session['count']=0
         userViewingnow = users[0] 
-
         return render_template('roomateTinder.html', title="Matching", user = userViewingnow.email, nav=NAVBAR_AUTH) '''
     else:
         return login()
 
-@app.route('/roomateTinder')
+@app.route('/aacept' )
+@app.route('/reject' )
 @app.route('/roomateTinder.html')
 def roomateTinder():
     if get_user():
-        user = load_user(session['user'])
-        intersect =user['yes'] + user['no'] + user['matched']
-        query = datastore.Client().query(kind = 'testuser')
-        currentusers=list(query.fetch())
-        users = [i for i in currentusers if i not in intersect]
-        userViewingnow=users[0] 
-        return render_template('roomateTinder.html', title="Matching", user = userViewingnow, nav=NAVBAR_AUTH)
+        potRoom = get_Suitors()   
+        if session["count"]<= len(potRoom):
+            userViewingnow=potRoom[session["count"]]
+            return render_template('roomateTinder.html', title="Matching", user = userViewingnow, nav=NAVBAR_AUTH, )
+        else:
+            return show_profiles()
+        
     else:
         return login()
+
+@app.route('/match', methods=['POST'])
+def match():
+   session["count"]+=1
+   return roomateTinder()
+
+@app.route('/accept', methods=['POST'])
+@app.route('/roomateTinder.html' )
+def accept():
+   session["count"]+=1
+   return roomateTinder()
+
+@app.route('/accept', methods=['POST'])
+@app.route('/roomateTinder.html')
+def reject():
+   session["count"]+=1
+   return roomateTinder()
+
 
 @app.errorhandler(404)
 @app.route('/404.html')
